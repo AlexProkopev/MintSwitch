@@ -7,7 +7,7 @@ export const reserves = [
     { name: "Litecoin", reserve: "19487.63 LTC" },
     { name: "Lido Staked Ether", reserve: "150 LINK" },
     { name: "BNB", reserve: "7630 BNB" },
-    { name: "Tether", reserve: "98576 USDT)" },
+    { name: "Tether", reserve: "98576 USDT" },
     { name: "Dogecoin", reserve: "16252355.68 DOGE" },
     { name: "Solana", reserve: "74297.44 SOL" },
     { name: "USDC", reserve: "77853 USDC" },

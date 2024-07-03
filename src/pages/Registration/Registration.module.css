@@ -1,72 +1,213 @@
-/* Registration.module.css */
+/* Подключаем шрифт Roboto */
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
 
+/* Общие стили для всех элементов */
+* {
+  font-family: 'Roboto', sans-serif;
+  box-sizing: border-box; /* Учитываем паддинги и бордеры в общей ширине и высоте элементов */
+}
+
+/* Контейнер для страницы регистрации */
 .container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: 100vh;
-    background: rgba(0, 0, 0, 0.5);  /* Фоновый цвет страницы */
-    padding: 20px;
-    border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.5);  /* Полупрозрачный фон */
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3); /* Более заметная тень для контейнера */
+  color: #fff;
+  position: relative;
+}
+
+/* Фон контейнера с размытием */
+.container::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: inherit; /* Наследуем фон */
+  backdrop-filter: blur(8px); /* Размытие фона */
+  z-index: -1; /* За формой */
+}
+
+/* Форма регистрации */
+.formContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: #fff; /* Цвет фона формы */
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Более заметная тень для формы */
+  width: 100%;
+  max-width: 400px;
+  animation: fadeIn 1s ease-in-out; /* Анимация появления формы */
+}
+
+/* Анимация появления формы */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
   }
-  
-  .formContainer {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    background: #fff;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Тень для формы */
-    width: 100%;
-    max-width: 400px;
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
-  
+}
+
+/* Заголовок формы */
+.titleRegist {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 20px;
+  color: #ffffff; /* Цвет заголовка */
+  text-align: center; /* Выравнивание заголовка по центру */
+  animation: slideIn 0.5s ease-out; /* Анимация появления заголовка */
+}
+
+/* Анимация появления заголовка */
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Группа элементов формы */
+.formGroup {
+  width: 100%;
+  margin-bottom: 15px;
+}
+
+/* Поля ввода формы */
+.inputField {
+  width: 100%;
+  padding: 12px;
+  font-size: 16px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  box-sizing: border-box;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease; /* Плавные переходы для границы и тени */
+}
+
+/* Цвет плейсхолдера */
+.inputField::placeholder {
+  color: #999;
+}
+
+/* Цвет границы и тени при фокусе */
+.inputField:focus {
+  border-color: #007bff; /* Цвет границы при фокусе */
+  outline: none;
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5); /* Легкая тень при фокусе */
+}
+
+/* Сообщение об ошибке */
+.error {
+  color: #dc3545; /* Цвет сообщения об ошибке */
+  font-size: 14px;
+}
+
+/* Кнопка отправки формы */
+.submitButton {
+  padding: 12px 20px;
+  font-size: 16px;
+  color: #fff;
+  background: #007bff; /* Цвет кнопки */
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background 0.3s ease, transform 0.3s ease; /* Плавные переходы для фона и трансформации */
+}
+
+/* Цвет кнопки при наведении */
+.submitButton:hover {
+  background: #0056b3; /* Цвет кнопки при наведении */
+  transform: translateY(-2px); /* Легкое приподнимание кнопки */
+}
+
+.submitButton:active {
+  background: #004085; /* Темный цвет при нажатии */
+  transform: translateY(0); /* Возвращаем кнопку в исходное положение */
+}
+
+/* Текст под формой */
+.formText {
+  margin-top: 20px;
+  font-size: 14px;
+  color: #ddd; /* Цвет текста */
+  text-align: center; /* Выравнивание текста по центру */
+}
+
+.formText a {
+  color: #007bff; /* Цвет ссылки */
+  text-decoration: none;
+  font-weight: bold;
+}
+
+/* Подчеркивание ссылки при наведении */
+.formText a:hover {
+  text-decoration: underline;
+}
+
+/* Адаптивные стили */
+
+@media (min-width: 768px) {
+  .container {
+    padding: 40px;
+    height: auto;
+  }
+
   .titleRegist {
-    font-size: 24px;
-    font-weight: bold;
-    margin-bottom: 20px;
-    color: #333; /* Цвет заголовка */
+    font-size: 28px;
   }
-  
-  .formGroup {
-    width: 100%;
-    margin-bottom: 15px;
-  }
-  
+
   .inputField {
-    width: 100%;
-    padding: 10px;
-    font-size: 16px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    box-sizing: border-box;
-    transition: border-color 0.3s;
+    padding: 14px;
+    font-size: 18px;
   }
-  
-  .inputField:focus {
-    border-color: #007bff; /* Цвет границы при фокусе */
-    outline: none;
-  }
-  
-  .error {
-    color: #dc3545; /* Цвет сообщения об ошибке */
-    font-size: 14px;
-  }
-  
+
   .submitButton {
-    padding: 10px 20px;
+    padding: 14px;
+    font-size: 18px;
+  }
+
+  .formText {
     font-size: 16px;
-    color: #fff;
-    background: #007bff; /* Цвет кнопки */
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: background 0.3s;
   }
-  
-  .submitButton:hover {
-    background: #0056b3; /* Цвет кнопки при наведении */
+}
+
+@media (min-width: 1024px) {
+  .container {
+    max-width: 500px;
+    margin: 0 auto;
   }
-  
+
+  .titleRegist {
+    font-size: 32px;
+  }
+
+  .inputField {
+    padding: 16px;
+    font-size: 20px;
+  }
+
+  .submitButton {
+    padding: 16px;
+    font-size: 20px;
+  }
+
+  .formText {
+    font-size: 18px;
+  }
+}

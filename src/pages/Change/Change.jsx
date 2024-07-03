@@ -8,6 +8,7 @@ import { reserves } from "../../array/coinsArray";
 import ReviewsList from "../../components/Reviews/Reviews";
 import { toast, ToastContainer } from "react-toastify"; // Импортируем ToastContainer и toast
 import "react-toastify/dist/ReactToastify.css"; // Импортируем стили
+import Loader from "../../components/Loader/Loader"; // Импортируем лоадер
 
 function Change() {
   const [coins, setCoins] = useState([]);
@@ -16,8 +17,9 @@ function Change() {
   const [priceToShow1, setPriceToShow1] = useState(null); // Для списка 1
   const [priceToShow2, setPriceToShow2] = useState(null); // Для списка 2
   const [exchangeRate, setExchangeRate] = useState(null); // Для хранения курса обмена
+  const [amountCoin2, setAmountCoin2] = useState(null); // Для хранения количества второй монеты
+  const [loading, setLoading] = useState(true); // Состояние для загрузки данных
   const navigate = useNavigate();
-  console.log("exchangeRate: ", exchangeRate);
 
   useEffect(() => {
     // Загружаем выбранные монеты из localStorage при монтировании компонента
@@ -39,9 +41,11 @@ function Change() {
       })
       .then((response) => {
         setCoins(response.data);
+        setLoading(false); // Устанавливаем состояние загрузки в false после получения данных
       })
       .catch((error) => {
         console.error("Error fetching coins:", error);
+        setLoading(false); // Устанавливаем состояние загрузки в false при ошибке
       });
   }, []);
 
@@ -88,6 +92,9 @@ function Change() {
         const rate1to2 =
           response.data[coinId2]?.usd / response.data[coinId1]?.usd;
         setExchangeRate(rate1to2 ? rate1to2.toFixed(2) : "N/A");
+        setAmountCoin2(
+          rate1to2 ? (1 / rate1to2).toFixed(2) : "N/A"
+        ); // Рассчитываем количество второй монеты для 1 первой монеты
       })
       .catch((error) => {
         console.error("Error fetching exchange rate:", error);
@@ -104,18 +111,23 @@ function Change() {
 
   // Обработчик создания заявки
   const handleCreateRequest = (event) => {
-    event.preventDefault(); 
+    event.preventDefault();
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth' // Плавная прокрутка
+    });
     toast.success(
       "Заявка создана! Пожалуйста, следуйте далее для завершения процесса обмена."
     );
-   
+
     setTimeout(() => {
-     navigate(REQUEST_ROUTE); 
-    }, 1000); 
+      navigate(REQUEST_ROUTE);
+    }, 1000);
   };
 
   return (
     <div className="container">
+      {loading && <Loader />} {/* Отображаем лоадер пока данные загружаются */}
       <div className="lists-container">
         <div>
           <p className="text-change">Отдаете</p>
@@ -177,6 +189,41 @@ function Change() {
           </ul>
         </div>
       </div>
+
+      {/* Новый блок для отображения выбранных монет и курса */}
+      <div className="selected-info-container">
+        {selectedCoin1 && selectedCoin2 && (
+          <div className="selected-info">
+            <div className="coin-info">
+              <img
+                src={selectedCoin1.image}
+                width="50px"
+                height="50px"
+                alt={selectedCoin1.name}
+              />
+              <span>{selectedCoin1.name}</span>
+            </div>
+
+            <div className="coin-info">
+              <img
+                src={selectedCoin2.image}
+                width="50px"
+                height="50px"
+                alt={selectedCoin2.name}
+              />
+              <span>{selectedCoin2.name}</span>
+            </div>
+          </div>
+        )}
+        {exchangeRate && (
+          <div className="exchange-rate-info">
+            <p className="resultChange">
+              1 {selectedCoin1?.name} ≈ {amountCoin2} {selectedCoin2?.name}
+            </p>
+          </div>
+        )}
+      </div>
+
       <Link
         to={REQUEST_ROUTE}
         className="create-btn"
@@ -187,8 +234,18 @@ function Change() {
       <div className="reviews-container">
         <ReviewsList />
       </div>
-      <ToastContainer />{" "}
-      {/* Добавляем компонент ToastContainer для отображения уведомлений */}
+      <ToastContainer
+      className="toast-container" // Устанавливаем класс для Toast-уведомлений
+        position="fixed" // Устанавливаем позицию Toast-уведомления
+        autoClose={5000} // Время, через которое уведомление автоматически закроется
+        hideProgressBar={false} // Показываем прогресс-бар
+        closeOnClick // Закрытие уведомления по клику
+        pauseOnHover // Пауза при наведении
+        draggable // Перетаскивание уведомления
+        pauseOnFocusLoss // Пауза при потере фокуса
+        theme="dark" // Тема уведомлений
+        
+      />
     </div>
   );
 }

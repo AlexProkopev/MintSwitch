@@ -6,6 +6,8 @@ import css from './Registration.module.css';
 import { registrationUser } from '../../redux/state/autentification/services';
 import { selectIsLoading } from '../../redux/state/autentification/authentification.selectors';
 import Loader from '../../components/Loader/Loader';
+import { Link, useNavigate } from 'react-router-dom';
+import { AUTH_ROUTE } from '../../components/routes/routes';
 
 // Схема валидации с использованием Yup
 const validationSchema = Yup.object({
@@ -24,29 +26,38 @@ const validationSchema = Yup.object({
 const Registration = () => {
   const dispatch = useDispatch();
   const isLoading = useSelector(selectIsLoading);
+  const navigate = useNavigate();  // Хук для навигации
 
   // Обработчик отправки формы
-  const handleSubmit = (values) => {
-    dispatch(registrationUser(values));
+  const handleSubmit = (values, { setSubmitting }) => {
+    dispatch(registrationUser(values))
+      .unwrap()
+      .then(() => {
+        setSubmitting(false);
+        navigate(AUTH_ROUTE);  // Перенаправление на страницу входа после успешной регистрации
+      })
+      .catch(() => {
+        setSubmitting(false);
+      });
   };
 
   return (
     <>
       {isLoading && <Loader />}
       <div className={css.container}>
-        <h2 className={css.titleRegist}>Registration</h2>
+        <h2 className={css.titleRegist}>Регистрация</h2>
         <Formik
           initialValues={{ name: '', email: '', password: '' }}
           validationSchema={validationSchema}
           onSubmit={handleSubmit}
         >
-          {() => (
+          {({ isSubmitting }) => (
             <Form className={css.formContainer}>
               <div className={css.formGroup}>
                 <Field
                   type="text"
                   name="name"
-                  placeholder="Name"
+                  placeholder="Имя"
                   className={css.inputField}
                 />
                 <ErrorMessage name="name" component="div" className={css.error} />
@@ -55,7 +66,7 @@ const Registration = () => {
                 <Field
                   type="text"
                   name="email"
-                  placeholder="Username"
+                  placeholder="Email"
                   className={css.inputField}
                 />
                 <ErrorMessage name="email" component="div" className={css.error} />
@@ -64,17 +75,24 @@ const Registration = () => {
                 <Field
                   type="password"
                   name="password"
-                  placeholder="Password"
+                  placeholder="Пароль"
                   className={css.inputField}
                 />
                 <ErrorMessage name="password" component="div" className={css.error} />
               </div>
-              <button type="submit" className={css.submitButton}>
-                Sign Up
+              <button
+                type="submit"
+                className={css.submitButton}
+                disabled={isSubmitting}
+              >
+                Зарегистрироваться
               </button>
             </Form>
           )}
         </Formik>
+        <p className={css.formText}>
+          Уже есть аккаунт? <Link to={AUTH_ROUTE}>Войдите</Link>
+        </p>
       </div>
     </>
   );

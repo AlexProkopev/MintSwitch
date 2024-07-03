@@ -1,17 +1,29 @@
 /* index.css */
 
 /* index.css */
-
 body {
   background: url('https://www.addevice.io/storage/ckeditor/uploads/images/6390774fc068f_guide.on.how.to.start.a.cryptocurrency.exchange.png') no-repeat center center fixed;
   background-size: cover;
   color: #fff;
-  font-family: Arial, sans-serif;
+  font-family: 'Roboto', Arial, sans-serif;
   margin: 0;
   padding: 0;
-  backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px); /* Размытие фона */
+  /* Убираем скролл, чтобы не показывать возможные краи изображения */
 }
 
+/* Адаптивные стили для фона */
+@media (max-width: 768px) {
+  body {
+    background-position: top center; /* Центрируем изображение по вертикали */
+  }
+}
+
+@media (max-width: 480px) {
+  body {
+    background-size: auto 100%; /* Увеличиваем высоту фона для небольших экранов */
+  }
+}
 
 
 code {

@@ -1,9 +1,10 @@
-/* Login.module.css */
-
+/* Подключаем шрифт Roboto */
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
 
+/* Общие стили для всех элементов */
 * {
   font-family: 'Roboto', sans-serif;
+  box-sizing: border-box; /* Учитываем паддинги и бордеры в общей ширине и высоте элементов */
 }
 
 .container {
@@ -12,24 +13,49 @@
   align-items: center;
   justify-content: center;
   height: 100vh;
-  background: rgba(0, 0, 0, 0.5);  /* Фоновый цвет страницы */
+  background: rgba(0, 0, 0, 0.5);  /* Полупрозрачный фон */
   padding: 20px;
   border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Тень для контейнера */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3); /* Более заметная тень для контейнера */
   color: #fff;
-
+  position: relative;
 }
 
+.container::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: inherit; /* Наследуем фон */
+  backdrop-filter: blur(8px); /* Размытие фона */
+  z-index: -1; /* За формой */
+}
 
-
+/* Заголовок формы */
 .titleLogIn {
   font-size: 24px;
   font-weight: bold;
   margin-bottom: 20px;
   color: #fff; /* Цвет заголовка */
   text-align: center; /* Выравнивание заголовка по центру */
+  animation: fadeIn 1s ease-in-out; /* Анимация появления заголовка */
 }
 
+/* Анимация появления */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Стили для формы */
 .formLogIn {
   display: flex;
   flex-direction: column;
@@ -38,16 +64,30 @@
   background: #fff; /* Цвет фона формы */
   padding: 20px;
   border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Тень формы */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Более заметная тень для формы */
+  animation: slideIn 0.5s ease-out; /* Анимация появления формы */
 }
 
+/* Анимация появления формы */
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Стили для инпутов формы */
 .inputLogIn {
   margin-bottom: 15px;
-  padding: 10px;
+  padding: 12px;
   font-size: 16px;
   border: 1px solid #ddd; /* Цвет границы */
   border-radius: 4px;
-  transition: border-color 0.3s ease;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease; /* Плавные переходы для границы и тени */
 }
 
 .inputLogIn::placeholder {
@@ -57,17 +97,19 @@
 .inputLogIn:focus {
   border-color: #007bff; /* Цвет границы при фокусе */
   outline: none;
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5); /* Легкая тень при фокусе */
 }
 
+/* Стили для кнопки входа */
 .btnLogIN {
-  padding: 10px;
+  padding: 12px;
   font-size: 16px;
   color: #fff;
   background: #007bff; /* Цвет кнопки */
   border: none;
   border-radius: 4px;
   cursor: pointer;
-  transition: background 0.3s ease, transform 0.3s ease;
+  transition: background 0.3s ease, transform 0.3s ease; /* Плавные переходы для фона и трансформации */
 }
 
 .btnLogIN:hover {
@@ -75,6 +117,12 @@
   transform: translateY(-2px); /* Легкое приподнимание кнопки */
 }
 
+.btnLogIN:active {
+  background: #004085; /* Темный цвет при нажатии */
+  transform: translateY(0); /* Возвращаем кнопку в исходное положение */
+}
+
+/* Стили для текста с ссылкой */
 .profileText {
   margin-top: 20px;
   font-size: 14px;
@@ -99,29 +147,18 @@
     padding: 40px;
     height: auto;
   }
-  &::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: inherit; /* Наследуем фон */
-    backdrop-filter: blur(8px); /* Размытие фона */
-    z-index: -1; /* За формой */
-  }
-  
+
   .titleLogIn {
     font-size: 28px;
   }
 
   .inputLogIn {
-    padding: 12px;
+    padding: 14px;
     font-size: 18px;
   }
 
   .btnLogIN {
-    padding: 12px;
+    padding: 14px;
     font-size: 18px;
   }
 
@@ -136,30 +173,17 @@
     margin: 0 auto;
   }
 
-  &::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: inherit; /* Наследуем фон */
-    backdrop-filter: blur(8px); /* Размытие фона */
-    z-index: -1; /* За формой */
-  }
-  
-
   .titleLogIn {
     font-size: 32px;
   }
 
   .inputLogIn {
-    padding: 14px;
+    padding: 16px;
     font-size: 20px;
   }
 
   .btnLogIN {
-    padding: 14px;
+    padding: 16px;
     font-size: 20px;
   }
 

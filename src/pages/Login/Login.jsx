@@ -1,6 +1,6 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Formik, Form, Field } from 'formik';
 import * as Yup from 'yup';
 
@@ -8,6 +8,8 @@ import css from './Login.module.css';
 import { selectIsLoading } from '../../redux/state/autentification/authentification.selectors';
 import Loader from '../../components/Loader/Loader';
 import { fetchUser } from '../../redux/state/autentification/services';
+import { CABINET_ROUTE, REGISTER_ROUTE } from '../../components/routes/routes';
+import { Notify } from 'notiflix';
 
 // Валидация формы с помощью Yup
 const validationSchema = Yup.object({
@@ -30,10 +32,12 @@ const Login = () => {
       .unwrap()
       .then(() => {
         setSubmitting(false);
-        navigate('/exchange'); // Перенаправление на страницу обмена
+        Notify.success('Вы успешно авторизовались');
+        navigate(CABINET_ROUTE); // Перенаправление на страницу обмена
       })
       .catch(() => {
         setSubmitting(false);
+        Notify.failure('Неверный email или пароль');
       });
   };
 
@@ -71,7 +75,9 @@ const Login = () => {
             </Form>
           )}
         </Formik>
-        <p className={css.profileText}>Профиль</p>
+        <p className={css.profileText}>
+          Нет аккаунта? <Link to={REGISTER_ROUTE}>Зарегистрируйтесь</Link>
+        </p>
       </div>
     </>
   );

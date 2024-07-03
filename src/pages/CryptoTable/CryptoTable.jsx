@@ -51,7 +51,7 @@ const CryptoTable = () => {
                 <TableRow>
                   <TableCell>Криптовалюта</TableCell>
                   <TableCell align="right">Цена</TableCell>
-                  <TableCell align="right">Изменение за 24ч</TableCell>
+                  <TableCell align="right">За 24ч</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>

@@ -67,7 +67,8 @@
     width: 25px;
     height: 2px;
     background-color: #ffffff;
-    transition: all 0.3s ease;
+    transition: all 0.3s ease-in;
+
   }
   
   /* Анимация бургер-меню при открытии */
@@ -96,7 +97,8 @@
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
     width: 200px; /* Ширина выпадающего меню */
-    z-index: 1000; /* Убедитесь, что меню отображается поверх других элементов */
+    z-index: 1000;
+    /* Убедитесь, что меню отображается поверх других элементов */
   }
   
   /* Медиазапросы для адаптивности */
@@ -141,7 +143,7 @@
     }
   
     .burger-menu {
-     
+     position: absolute;
       top: 38px;
       right: 20px;
     }
