@@ -1,0 +1,117 @@
+/* Cabinet.module.css */
+
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  
+  background: rgba(0, 0, 0, 0.5);
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Тень для контейнера */
+  color: #fff;
+}
+
+.linksContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.linkReg {
+  margin-bottom: 10px;
+  padding: 10px 20px;
+  text-decoration: none;
+  color: #007bff; /* Цвет ссылки */
+  background: #fff;
+  border-radius: 4px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Тень ссылки */
+  transition: background 0.3s ease, color 0.3s ease, transform 0.3s ease;
+}
+
+.linkReg:hover {
+  background: #007bff;
+  color: #fff; /* Цвет ссылки при наведении */
+  transform: translateY(-2px); /* Легкое приподнимание ссылки */
+}
+
+.profileContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.2); /* Полупрозрачный белый фон */
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Тень для контейнера профиля */
+  /* backdrop-filter: blur(10px); Размытие фона */
+}
+
+.profileTitle {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 20px;
+  color: #fff; /* Цвет заголовка */
+}
+
+.profileDetails {
+  font-size: 16px;
+  color: #ddd; /* Цвет текста профиля */
+  margin-bottom: 20px;
+}
+
+.btnLogout {
+  padding: 10px 20px;
+  font-size: 16px;
+  color: #fff;
+  background: #dc3545; /* Цвет кнопки выхода */
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background 0.3s ease, transform 0.3s ease;
+}
+
+.btnLogout:hover {
+  background: #c82333; /* Цвет кнопки выхода при наведении */
+  transform: translateY(-2px); /* Легкое приподнимание кнопки */
+}
+
+/* Адаптивные стили */
+
+@media (min-width: 768px) {
+  .container {
+    padding: 40px;
+    height: auto;
+  }
+
+  .linkReg {
+    padding: 12px 24px;
+  }
+
+  .btnLogout {
+    padding: 12px 24px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .container {
+    max-width: 600px;
+    margin: 0 auto;
+  }
+
+  .profileTitle {
+    font-size: 28px;
+  }
+
+  .profileDetails {
+    font-size: 18px;
+  }
+
+  .linkReg {
+    padding: 14px 28px;
+  }
+
+  .btnLogout {
+    padding: 14px 28px;
+  }
+}

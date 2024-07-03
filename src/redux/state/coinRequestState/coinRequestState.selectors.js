@@ -1,0 +1,1 @@
+export const changeCoins = (state) => state.coinsRequest.coins

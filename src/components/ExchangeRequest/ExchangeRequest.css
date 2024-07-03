@@ -1,0 +1,76 @@
+body {
+  background-color: #1a1a1a;
+  font-family: 'Roboto', sans-serif;
+  color: #fff;
+}
+
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  min-height: 100vh;
+}
+
+.exchange-card {
+  width: 100%;
+  max-width: 600px;
+  border-radius: 15px;
+  background: #272727;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.2);
+}
+
+.header {
+  text-align: center;
+  margin-bottom: 20px;
+  font-weight: bold;
+  color: #fff;
+}
+
+.selectedCoinsList {
+  list-style: none;
+  padding: 0;
+  margin-bottom: 10px;
+  font-size: 16px;
+  line-height: 1.5;
+  color: #ccc;
+}
+
+.selectedCoinsList li {
+  display: flex;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.selectedCoinsList img {
+  width: 30px;
+  height: 30px;
+  margin-right: 8px;
+}
+
+.network-select {
+  margin-top: 10px;
+}
+
+.submit-button {
+  background-color: #007bff;
+  color: #fff;
+  &:hover {
+    background-color: #0056b3;
+  }
+}
+
+.aml-background {
+  background-color: rgba(0, 0, 0, 0.7);
+  color: white;
+  padding: 10px 20px;
+  border-radius: 5px;
+  margin-bottom: 20px;
+}
+
+@media (max-width: 768px) {
+  .aml-background {
+    font-size: 14px;
+    padding: 8px 16px;
+  }
+}

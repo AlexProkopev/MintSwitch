@@ -1,0 +1,169 @@
+/* Login.module.css */
+
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
+
+* {
+  font-family: 'Roboto', sans-serif;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.5);  /* Фоновый цвет страницы */
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Тень для контейнера */
+  color: #fff;
+
+}
+
+
+
+.titleLogIn {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 20px;
+  color: #fff; /* Цвет заголовка */
+  text-align: center; /* Выравнивание заголовка по центру */
+}
+
+.formLogIn {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 400px;
+  background: #fff; /* Цвет фона формы */
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Тень формы */
+}
+
+.inputLogIn {
+  margin-bottom: 15px;
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ddd; /* Цвет границы */
+  border-radius: 4px;
+  transition: border-color 0.3s ease;
+}
+
+.inputLogIn::placeholder {
+  color: #999; /* Цвет плейсхолдера */
+}
+
+.inputLogIn:focus {
+  border-color: #007bff; /* Цвет границы при фокусе */
+  outline: none;
+}
+
+.btnLogIN {
+  padding: 10px;
+  font-size: 16px;
+  color: #fff;
+  background: #007bff; /* Цвет кнопки */
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background 0.3s ease, transform 0.3s ease;
+}
+
+.btnLogIN:hover {
+  background: #0056b3; /* Цвет кнопки при наведении */
+  transform: translateY(-2px); /* Легкое приподнимание кнопки */
+}
+
+.profileText {
+  margin-top: 20px;
+  font-size: 14px;
+  color: #ddd; /* Цвет текста */
+  text-align: center; /* Выравнивание текста по центру */
+}
+
+.profileText a {
+  color: #007bff; /* Цвет ссылки */
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.profileText a:hover {
+  text-decoration: underline; /* Подчеркивание ссылки при наведении */
+}
+
+/* Адаптивные стили */
+
+@media (min-width: 768px) {
+  .container {
+    padding: 40px;
+    height: auto;
+  }
+  &::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: inherit; /* Наследуем фон */
+    backdrop-filter: blur(8px); /* Размытие фона */
+    z-index: -1; /* За формой */
+  }
+  
+  .titleLogIn {
+    font-size: 28px;
+  }
+
+  .inputLogIn {
+    padding: 12px;
+    font-size: 18px;
+  }
+
+  .btnLogIN {
+    padding: 12px;
+    font-size: 18px;
+  }
+
+  .profileText {
+    font-size: 16px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .container {
+    max-width: 500px;
+    margin: 0 auto;
+  }
+
+  &::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: inherit; /* Наследуем фон */
+    backdrop-filter: blur(8px); /* Размытие фона */
+    z-index: -1; /* За формой */
+  }
+  
+
+  .titleLogIn {
+    font-size: 32px;
+  }
+
+  .inputLogIn {
+    padding: 14px;
+    font-size: 20px;
+  }
+
+  .btnLogIN {
+    padding: 14px;
+    font-size: 20px;
+  }
+
+  .profileText {
+    font-size: 18px;
+  }
+}

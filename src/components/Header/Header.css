@@ -1,0 +1,149 @@
+/* Header.css */
+
+
+
+/* Основной контейнер для хедера */
+.header-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #1c1c1c; /* Темный фон для хедера */
+    padding: 10px 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    position: relative;
+    top: 0;
+    z-index: 1000;
+  }
+  
+  /* Логотип */
+  .logo-link {
+    display: flex;
+    align-items: center;
+  }
+  
+  /* Контейнер для навигации */
+  .nav-links {
+    display: flex;
+    gap: 20px; /* Расстояние между ссылками */
+  }
+  
+  /* Навигационные ссылки */
+  .nav-link {
+    color: #ffffff; /* Белый цвет текста ссылок */
+    text-decoration: none;
+    font-size: 1rem;
+    padding: 10px 15px; /* Отступы вокруг текста */
+    border-radius: 5px;
+    transition: background-color 0.3s ease, color 0.3s ease; /* Плавный переход для фонового цвета и текста */
+  }
+  
+  .nav-link:hover {
+    background-color: #007bff; /* Цвет фона при наведении */
+    color: #ffffff; /* Белый цвет текста при наведении */
+  }
+  
+  .active-link {
+    background-color: #0056b3; /* Цвет фона для активной ссылки */
+    color: #ffffff; /* Белый цвет текста для активной ссылки */
+  }
+  
+  /* Бургер-меню */
+  .burger-menu {
+    display: none;
+    flex-direction: column;
+    gap: 5px;
+    cursor: pointer;
+    border: none;
+    background: none;
+    padding: 5px;
+    position: relative;
+    
+     /* Фиксация позиции для мобильных устройств */
+  }
+  
+  /* Линии бургер-меню */
+  .burger-bar {
+    
+    width: 25px;
+    height: 2px;
+    background-color: #ffffff;
+    transition: all 0.3s ease;
+  }
+  
+  /* Анимация бургер-меню при открытии */
+  .burger-menu.open .burger-bar:nth-child(1) {
+    transform: rotate(45deg) translate(4px, 4px);
+  }
+  
+  .burger-menu.open .burger-bar:nth-child(2) {
+    opacity: 0;
+  }
+  
+  .burger-menu.open .burger-bar:nth-child(3) {
+    transform: rotate(-45deg) translate(5px, -6px);
+  }
+  
+  /* Показ бургер-меню и скрытие навигации на мобильных устройствах */
+  .nav-links.open {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    position: absolute;
+    top: 60px; /* Расстояние от верхней границы */
+    right: 20px; /* Расстояние от правой границы */
+    background-color: #1c1c1c; /* Темный фон для выпадающего меню */
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    width: 200px; /* Ширина выпадающего меню */
+    z-index: 1000; /* Убедитесь, что меню отображается поверх других элементов */
+  }
+  
+  /* Медиазапросы для адаптивности */
+  
+  /* Планшеты */
+  @media (max-width: 768px) {
+    .header-container {
+      padding: 10px 15px;
+    }
+  
+    .nav-links {
+      display: none;
+      gap: 10px;
+    }
+  
+    .burger-menu {
+      display: flex;
+      top: 10px;
+      right: 10px;
+    }
+  
+    .nav-links.open {
+      display: flex;
+    }
+  }
+  
+  /* Мобильные устройства */
+  @media (max-width: 475px) {
+    .header-container {
+      flex-direction: column;
+      align-items: flex-start;
+      padding: 10px;
+    }
+  
+    .nav-links {
+      gap: 5px;
+    }
+  
+    .nav-link {
+      font-size: 0.875rem;
+      padding: 8px 12px;
+    }
+  
+    .burger-menu {
+     position: fixed;
+      top: 38px;
+      right: 20px;
+    }
+  }
+  

@@ -1,0 +1,31 @@
+.transactionsContainer {
+    background: rgba(255, 255, 255, 0.2); /* Полупрозрачный белый фон */
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Тень для контейнера транзакций */
+    margin-top: 20px;
+  }
+  
+  .transactionsTitle {
+    font-size: 24px;
+    font-weight: bold;
+    color: #fff; /* Цвет заголовка */
+    margin-bottom: 20px;
+  }
+  
+  .noTransactions {
+    font-size: 16px;
+    color: #ddd; /* Цвет текста при отсутствии транзакций */
+  }
+  
+  .transactionsList {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .transactionItem {
+    font-size: 16px;
+    color: #ddd; /* Цвет текста транзакций */
+    margin-bottom: 10px;
+  }
+  

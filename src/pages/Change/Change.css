@@ -1,0 +1,218 @@
+/* Подключаем шрифт Roboto */
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
+
+.container {
+  display: flex;
+  padding: 20px;
+  flex-direction: column; /* Выстраиваем элементы вертикально */
+  font-family: 'Roboto', sans-serif; /* Применяем шрифт Roboto */
+}
+
+.lists-container {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  flex-grow: 1;
+  margin-bottom: 20px; /* Отступ снизу, чтобы была видна кнопка */
+}
+
+.listFirst, .listSecond {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.listFirst li, .listSecond li {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.coin-button {
+  border: 2px solid transparent; /* Начальная рамка прозрачная */
+  border-radius: 10px;
+  padding: 2px; /* Уменьшили отступы для меньшего размера */
+  background-color: #fff; /* Белый фон для кнопок */
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.2); /* Тень для кнопок */
+  cursor: pointer;
+  transition: all 0.3s ease; /* Плавный переход для эффектов */
+}
+
+.coin-button img {
+  width: 50px;
+  height: 50px;
+}
+
+.coin-button.selected {
+  border-color: #007bff; /* Синяя рамка для выбранных кнопок */
+  background-color: #e7f0ff; /* Легкий голубой фон для выбранных кнопок */
+  transform: scale(1.1); /* Увеличение выбранной кнопки */
+  box-shadow: 0 0 10px rgba(0, 123, 255, 0.5); /* Усиленная тень для выбранных кнопок */
+}
+
+.coin-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.priceInfo {
+  margin-top: 4px; /* Уменьшили отступ */
+  font-size: 15px; /* Увеличили шрифт для лучшей читабельности */
+  color: #0de206; /* Белый цвет для лучшей видимости на синем фоне */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #007bff; /* Синий фон */
+  padding: 5px;
+  border-radius: 5px;
+}
+
+.reserveInfo {
+  margin-top: 2px; /* Уменьшили отступ */
+  font-size: 15px; /* Увеличили шрифт для лучшей читабельности */
+  color: #ffffff; /* Белый цвет для лучшей видимости на синем фоне */
+  text-align: center; /* Выравниваем текст по центру */
+  background-color: #007bff; /* Синий фон */
+  padding: 5px;
+  border-radius: 5px;
+}
+
+.exchange-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  background-color: #f9f9f9;
+}
+
+.exchange-info {
+  text-align: center;
+  font-size: 16px; /* Увеличили размер шрифта */
+  color: #333; /* Цвет текста для информации обмена */
+}
+
+.create-btn {
+  display: block;
+  margin-top: 20px;
+  padding: 10px;
+  text-align: center;
+  background-color: #007bff;
+  color: #fff;
+  text-decoration: none;
+  border-radius: 5px;
+  font-size: 16px; /* Увеличили размер шрифта */
+  transition: 250ms ease-in;
+}
+
+.create-btn:hover {
+  background-color: #0056b3;
+}
+
+.amount-container {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin: 20px 0;
+}
+
+.amount-container label {
+  display: flex;
+  flex-direction: column;
+  font-size: 16px; /* Увеличили размер шрифта */
+}
+
+.amount-container input {
+  margin-top: 5px;
+  padding: 5px;
+  width: 100%;
+  box-sizing: border-box;
+  font-size: 16px; /* Увеличили размер шрифта */
+}
+
+.exchange-rate {
+  margin: 20px 0;
+  text-align: center;
+  font-size: 18px; /* Увеличили размер шрифта */
+}
+
+/* Медиа-запросы для адаптации под мобильные устройства и планшеты */
+@media (max-width: 768px) {
+
+ 
+
+  .lists-container {
+    flex-direction: column;
+  }
+
+  .coin-button img {
+    width: 40px;
+    height: 40px;
+  }
+
+  .priceInfo {
+    font-size: 13px;
+  }
+
+  .reserveInfo {
+    font-size: 13px;
+    
+  }
+
+  .exchange-info {
+    font-size: 14px;
+  }
+
+  .create-btn {
+    font-size: 18px;
+  }
+
+  .amount-container input {
+    font-size: 14px;
+  }
+
+  .exchange-rate {
+    font-size: 16px;
+  }
+}
+
+@media (max-width: 480px) {
+
+ 
+  .coin-button img {
+    width: 30px;
+    height: 30px;
+  }
+
+  .priceInfo {
+    font-size: 16px;
+    padding: 3px;
+  }
+
+  .reserveInfo {
+    font-size: 14px;
+    padding: 3px;
+  }
+
+  .exchange-info {
+    font-size: 12px;
+  }
+
+  .create-btn {
+    font-size: 18px;
+  }
+
+  .amount-container input {
+    font-size: 12px;
+  }
+
+  .exchange-rate {
+    font-size: 14px;
+  }
+}

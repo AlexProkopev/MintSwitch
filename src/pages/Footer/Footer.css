@@ -1,0 +1,109 @@
+/* Footer.css */
+
+/* Основной контейнер футера */
+.footer-container {
+    background-color: rgba(0, 0, 0, 0.5); /* Полупрозрачный черный фон */
+    padding: 40px 20px;
+    text-align: center;
+    border-top: 1px solid #e2e6ea;
+    box-shadow: 0 -1px 4px rgba(0, 0, 0, 0.1);
+    position: relative;
+    overflow: hidden; /* Скрывает содержимое, выходящее за границы футера */
+    margin-top: auto; /* Добавлено для прижатия футера к низу */
+  }
+  
+  /* Контент футера */
+  .footer-content {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  
+  /* Баннеры в футере */
+  .footer-banners {
+    display: flex;
+    flex-wrap: wrap; /* Перенос элементов на мобильных устройствах */
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 30px;
+  }
+  
+  /* Каждый баннер */
+  .footer-banner {
+    flex: 1 1 100%; /* Ширина 100% на мобильных устройствах */
+    max-width: 300px;
+  }
+  
+  /* Изображение в баннере */
+  .footer-banner img {
+    width: 100%;
+    border-radius: 8px;
+  }
+  
+  /* Информация о футере */
+  .footer-info {
+    margin-bottom: 20px;
+    color: #6c757d;
+  }
+  
+  /* Параграфы с информацией */
+  .footer-info p {
+    margin: 5px 0;
+  }
+  
+  /* Социальные иконки */
+  .footer-socials {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+    gap: 15px; /* Добавлен отступ между иконками */
+  }
+  
+  /* Ссылки на социальные сети */
+  .footer-socials a {
+    color: #007bff;
+    font-size: 24px;
+    transition: color 0.3s;
+  }
+  
+  /* Ссылки на социальные сети при наведении */
+  .footer-socials a:hover {
+    color: #0056b3;
+  }
+  
+  /* Адаптивные стили */
+  
+  /* Стили для планшетов и меньше */
+  @media (max-width: 1024px) {
+    .footer-banners {
+      flex-direction: column;
+      gap: 15px;
+    }
+  }
+  
+  /* Стили для мобильных устройств */
+  @media (max-width: 768px) {
+    .footer-banner {
+      max-width: 100%;
+    }
+  
+    .footer-socials a {
+      font-size: 20px;
+    }
+  }
+  
+  /* Стили для очень маленьких мобильных устройств */
+  @media (max-width: 480px) {
+    .footer-info {
+      font-size: 14px;
+    }
+  
+    .footer-socials {
+      margin-top: 10px;
+    }
+  
+    .footer-socials a {
+      font-size: 18px;
+      margin: 0 8px;
+    }
+  }
+  

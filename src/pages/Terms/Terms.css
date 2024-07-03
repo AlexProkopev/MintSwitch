@@ -1,0 +1,54 @@
+.terms-container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+  font-family: Arial, sans-serif;
+  line-height: 1.6;
+  background-color: rgba(255, 255, 255, 0.9); /* Полупрозрачный фон */
+  border-radius: 8px; /* Скругленные углы */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Тень для выделения блока */
+}
+
+.terms-container h1 {
+  font-size: 24px;
+  margin-bottom: 20px;
+  color: #333;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1); /* Легкая тень для улучшения читабельности */
+}
+
+.terms-container h2 {
+  font-size: 20px;
+  margin-top: 30px;
+  margin-bottom: 10px;
+  color: #444;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1); /* Легкая тень для заголовков */
+}
+
+.terms-container h3 {
+  font-size: 18px;
+  margin-top: 20px;
+  margin-bottom: 10px;
+  color: #555;
+  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.1); /* Легкая тень для заголовков */
+}
+
+.terms-container p, .terms-container ul {
+  margin-bottom: 10px;
+  color: #333; /* Цвет текста для лучшей читаемости */
+}
+
+.terms-container ul {
+  padding-left: 20px;
+}
+
+.terms-container ul li {
+  margin-bottom: 8px;
+}
+
+a {
+  color: #007bff;
+}
+
+a:hover {
+  text-decoration: underline;
+}
