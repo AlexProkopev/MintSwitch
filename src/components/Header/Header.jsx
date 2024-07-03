@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { NavLink } from 'react-router-dom';
 import './Header.css';
-import { CABINET_ROUTE, CHANGE_ROUTE, CRYPTOTABLE_ROUTE, REQUEST_ROUTE, ROAD_ROUTE } from '../routes/routes';
+import { CABINET_ROUTE, CHANGE_ROUTE, CRYPTOTABLE_ROUTE, ROAD_ROUTE } from '../routes/routes';
 import Logo from '../Logo/Logo';
 
 const Header = () => {
@@ -61,7 +61,7 @@ const Header = () => {
           AML правила
         </NavLink>
         <NavLink 
-          to={REQUEST_ROUTE} 
+          to={"contacts"} 
           className={({ isActive }) => isActive ? 'nav-link active-link' : 'nav-link'}
           onClick={closeMenu} // Закрытие меню при выборе страницы
         >

@@ -5,7 +5,7 @@ import {
   CABINET_ROUTE,
   CHANGE_ROUTE,
   CRYPTOTABLE_ROUTE,
-  REGISTR_ROUTE,
+  REGISTER_ROUTE,
   REQUEST_ROUTE,
   ROAD_ROUTE,
   TERMS_ROUTE,
@@ -30,7 +30,7 @@ function App() {
           <Route path={REQUEST_ROUTE} element={<ExchangeRequest />} />
           <Route path={ROAD_ROUTE} element={<AMLPolicy />} />
           <Route path={CABINET_ROUTE} element={<Cabinet />} />
-          <Route path={REGISTR_ROUTE} element={<Registration />} />
+          <Route path={REGISTER_ROUTE} element={<Registration />} />
           <Route path={AUTH_ROUTE} element={<Login />} />
           <Route path={CRYPTOTABLE_ROUTE} element={<CryptoTable />} />
           <Route path={TERMS_ROUTE} element={<Terms />} />
