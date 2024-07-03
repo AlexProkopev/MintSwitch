@@ -110,7 +110,7 @@ function Change() {
     );
    
     setTimeout(() => {
-      window.location.href = /nft-rental-ton${REQUEST_ROUTE}; 
+     navigate(REQUEST_ROUTE); 
     }, 1000); 
   };
 
