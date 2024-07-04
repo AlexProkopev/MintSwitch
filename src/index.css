@@ -30,3 +30,22 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+/* Убираем стрелки в input[type="number"] */
+input[type="number"] {
+  -moz-appearance: textfield; /* Для Firefox */
+  appearance: textfield; /* Для современных браузеров */
+}
+
+/* Убираем стрелки в Safari */
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Убираем стрелки в Edge и Chrome */
+input[type="number"] {
+  -moz-appearance: textfield;
+  appearance: textfield;
+}

@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import { Formik, Form, Field } from 'formik';
 import * as Yup from 'yup';
+import Captcha from '../../components/Captcha/Captcha';  // Импортируем новый компонент
 
 import css from './Login.module.css';
 import { selectIsLoading } from '../../redux/state/autentification/authentification.selectors';
@@ -23,17 +24,28 @@ const validationSchema = Yup.object({
 
 const Login = () => {
   const dispatch = useDispatch();
-  const navigate = useNavigate(); // Хук для навигации
+  const navigate = useNavigate();  // Хук для навигации
   const isLoading = useSelector(selectIsLoading);
 
+  const [captchaAnswer, setCaptchaAnswer] = useState(null);  // Хранение правильного ответа капчи
+
+  const handleCaptchaChange = (answer) => {
+    setCaptchaAnswer(answer);  // Сохраняем правильный ответ капчи
+  };
+
   const handleSubmit = (values, { setSubmitting }) => {
-    // Отправка данных и обработка успешного логина
-    dispatch(fetchUser(values))
+    if (!captchaAnswer) {
+      Notify.failure('Пожалуйста, пройдите проверку капчи');
+      setSubmitting(false);
+      return;
+    }
+
+    dispatch(fetchUser({ ...values, captchaToken: captchaAnswer }))  // Передаем ответ капчи на сервер
       .unwrap()
       .then(() => {
         setSubmitting(false);
         Notify.success('Вы успешно авторизовались');
-        navigate(CABINET_ROUTE); // Перенаправление на страницу обмена
+        navigate(CABINET_ROUTE);  // Перенаправление на страницу кабинета
       })
       .catch(() => {
         setSubmitting(false);
@@ -65,13 +77,8 @@ const Login = () => {
                 placeholder="Пароль"
                 className={css.inputLogIn}
               />
-              <button
-                type="submit"
-                className={css.btnLogIN}
-                disabled={isSubmitting}
-              >
-                Войти
-              </button>
+              <Captcha onCaptchaChange={handleCaptchaChange} />  {/* Добавляем компонент капчи */}
+              
             </Form>
           )}
         </Formik>

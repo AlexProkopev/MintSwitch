@@ -6,83 +6,93 @@ import { REQUEST_ROUTE } from "../../components/routes/routes";
 import ChangeIcon from "./ChangeIcon/ChangeIcon";
 import { reserves } from "../../array/coinsArray";
 import ReviewsList from "../../components/Reviews/Reviews";
-import { toast, ToastContainer } from "react-toastify"; // Импортируем ToastContainer и toast
-import "react-toastify/dist/ReactToastify.css"; // Импортируем стили
-import Loader from "../../components/Loader/Loader"; // Импортируем лоадер
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import Loader from "../../components/Loader/Loader";
 
 function Change() {
   const [coins, setCoins] = useState([]);
   const [selectedCoin1, setSelectedCoin1] = useState(null);
   const [selectedCoin2, setSelectedCoin2] = useState(null);
-  const [priceToShow1, setPriceToShow1] = useState(null); // Для списка 1
-  const [priceToShow2, setPriceToShow2] = useState(null); // Для списка 2
-  const [exchangeRate, setExchangeRate] = useState(null); // Для хранения курса обмена
-  const [amountCoin2, setAmountCoin2] = useState(null); // Для хранения количества второй монеты
-  const [loading, setLoading] = useState(true); // Состояние для загрузки данных
+  const [priceToShow1, setPriceToShow1] = useState(null);
+  const [priceToShow2, setPriceToShow2] = useState(null);
+  const [exchangeRate, setExchangeRate] = useState(null);
+  const [amountCoin2, setAmountCoin2] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [exchangeRatesCache, setExchangeRatesCache] = useState({});
   const navigate = useNavigate();
 
   useEffect(() => {
-    // Загружаем выбранные монеты из localStorage при монтировании компонента
-    const storedValues = JSON.parse(localStorage.getItem("selectedCoins"));
-    if (storedValues) {
-      setSelectedCoin1(storedValues[0] || null);
-      setSelectedCoin2(storedValues[1] || null);
-    }
+    const fetchData = async () => {
+      try {
+        // Делаем один запрос к API для получения данных о монетах и их курсах
+        const response = await axios.get("https://api.coingecko.com/api/v3/coins/markets", {
+          params: {
+            vs_currency: "usd",
+            order: "market_cap_desc",
+            per_page: 10,
+            page: 1,
+            sparkline: false,
+          },
+        });
 
-    axios
-      .get("https://api.coingecko.com/api/v3/coins/markets", {
-        params: {
-          vs_currency: "usd",
-          order: "market_cap_desc",
-          per_page: 10,
-          page: 1,
-          sparkline: false,
-        },
-      })
-      .then((response) => {
-        setCoins(response.data);
-        setLoading(false); // Устанавливаем состояние загрузки в false после получения данных
-      })
-      .catch((error) => {
-        console.error("Error fetching coins:", error);
-        setLoading(false); // Устанавливаем состояние загрузки в false при ошибке
-      });
+        if (response.data && response.data.length > 0) {
+          setCoins(response.data);
+          localStorage.setItem("coins", JSON.stringify(response.data));
+
+          // Обновляем курс обмена
+          const ids = response.data.map(coin => coin.id).join(',');
+          const priceResponse = await axios.get("https://api.coingecko.com/api/v3/simple/price", {
+            params: {
+              ids: ids,
+              vs_currencies: "usd",
+            },
+          });
+
+          const exchangeRates = {};
+          response.data.forEach(coin => {
+            exchangeRates[coin.id] = priceResponse.data[coin.id]?.usd || 0;
+          });
+
+          setExchangeRatesCache(exchangeRates);
+        } else {
+          throw new Error("Empty data");
+        }
+
+        setLoading(false);
+      } catch (error) {
+        setLoading(false);
+        toast.error("Ошибка при загрузке данных. Попробуйте снова позже.");
+      }
+    };
+
+    fetchData();
   }, []);
 
   useEffect(() => {
-    // Сохраняем выбранные монеты в localStorage при их изменении
     localStorage.setItem(
       "selectedCoins",
       JSON.stringify([selectedCoin1, selectedCoin2])
     );
-    if (selectedCoin1 && selectedCoin2) {
-      fetchExchangeRate(selectedCoin1.id, selectedCoin2.id);
-    }
-  }, [selectedCoin1, selectedCoin2]);
 
-  const handleCoinClick = (coin, listNumber) => {
-    if (listNumber === 1) {
-      if (selectedCoin2 && selectedCoin2.id === coin.id) {
-        return; // Нельзя выбрать тот же коин в обоих списках
+    if (selectedCoin1 && selectedCoin2) {
+      
+      if (exchangeRatesCache[selectedCoin1.id] && exchangeRatesCache[selectedCoin2.id]) {
+        const rate1to2 = exchangeRatesCache[selectedCoin2.id] / exchangeRatesCache[selectedCoin1.id];
+        const rate = rate1to2 ? rate1to2 : "N/A";
+        const amount = rate1to2 ? (1 / rate1to2) : "N/A";
+
+        setExchangeRate(rate);
+        setAmountCoin2(amount);
       } else {
-        setSelectedCoin1(coin);
-        setPriceToShow1(coin.id); // Показываем цену для выбранного коина в первом списке
-        setPriceToShow2(null); // Скрываем цену во втором списке
-      }
-    } else if (listNumber === 2) {
-      if (selectedCoin1 && selectedCoin1.id === coin.id) {
-        return; // Нельзя выбрать тот же коин в обоих списках
-      } else {
-        setSelectedCoin2(coin);
-        setPriceToShow2(coin.id); // Показываем цену для выбранного коина во втором списке
-        setPriceToShow1(null); // Скрываем цену в первом списке
+        fetchExchangeRate(selectedCoin1.id, selectedCoin2.id);
       }
     }
-  };
+  }, [selectedCoin1, selectedCoin2, exchangeRatesCache]);
 
   const fetchExchangeRate = (coinId1, coinId2) => {
     axios
-      .get(`https://api.coingecko.com/api/v3/simple/price`, {
+      .get("https://api.coingecko.com/api/v3/simple/price", {
         params: {
           ids: `${coinId1},${coinId2}`,
           vs_currencies: "usd",
@@ -91,15 +101,39 @@ function Change() {
       .then((response) => {
         const rate1to2 =
           response.data[coinId2]?.usd / response.data[coinId1]?.usd;
-        setExchangeRate(rate1to2 ? rate1to2.toFixed(2) : "N/A");
-        setAmountCoin2(
-          rate1to2 ? (1 / rate1to2).toFixed(2) : "N/A"
-        ); // Рассчитываем количество второй монеты для 1 первой монеты
+        const rate = rate1to2 ? rate1to2 : "N/A";
+        const amount = rate1to2 ? (1 / rate1to2) : "N/A";
+
+        const cacheKey = `${coinId1}_${coinId2}`;
+        setExchangeRatesCache((prevCache) => ({
+          ...prevCache,
+          [cacheKey]: { rate, amount },
+        }));
+
+        setExchangeRate(rate);
+        setAmountCoin2(amount);
       })
       .catch((error) => {
-        console.error("Error fetching exchange rate:", error);
         setExchangeRate("Error");
       });
+  };
+
+  const handleCoinClick = (coin, listNumber) => {
+    if (listNumber === 1) {
+      if (selectedCoin2 && selectedCoin2.id === coin.id) {
+        return;
+      } else {
+        setSelectedCoin1(coin);
+        setPriceToShow1(coin.id);
+      }
+    } else if (listNumber === 2) {
+      if (selectedCoin1 && selectedCoin1.id === coin.id) {
+        return;
+      } else {
+        setSelectedCoin2(coin);
+        setPriceToShow2(coin.id);
+      }
+    }
   };
 
   const getReserve = (name) => {
@@ -109,12 +143,11 @@ function Change() {
     return reserve ? reserve.reserve : "No Reserve";
   };
 
-  // Обработчик создания заявки
   const handleCreateRequest = (event) => {
     event.preventDefault();
     window.scrollTo({
       top: 0,
-      behavior: 'smooth' // Плавная прокрутка
+      behavior: "smooth",
     });
     toast.success(
       "Заявка создана! Пожалуйста, следуйте далее для завершения процесса обмена."
@@ -127,7 +160,7 @@ function Change() {
 
   return (
     <div className="container">
-      {loading && <Loader />} {/* Отображаем лоадер пока данные загружаются */}
+      {loading && <Loader />}
       <div className="lists-container">
         <div>
           <p className="text-change">Отдаете</p>
@@ -136,10 +169,8 @@ function Change() {
               <li key={coin.id} onClick={() => handleCoinClick(coin, 1)}>
                 <button
                   type="button"
-                  className={`coin-button ${
-                    selectedCoin1?.id === coin.id ? "selected" : ""
-                  }`}
-                  disabled={selectedCoin2 && selectedCoin2.id === coin.id} // Деактивируем кнопку если коин уже выбран во втором списке
+                  className={`coin-button ${selectedCoin1?.id === coin.id ? "selected" : ""}`}
+                  disabled={selectedCoin2 && selectedCoin2.id === coin.id}
                 >
                   <img
                     src={coin.image}
@@ -166,10 +197,8 @@ function Change() {
               <li key={coin.id} onClick={() => handleCoinClick(coin, 2)}>
                 <button
                   type="button"
-                  className={`coin-button ${
-                    selectedCoin2?.id === coin.id ? "selected" : ""
-                  }`}
-                  disabled={selectedCoin1 && selectedCoin1.id === coin.id} // Деактивируем кнопку если коин уже выбран в первом списке
+                  className={`coin-button ${selectedCoin2?.id === coin.id ? "selected" : ""}`}
+                  disabled={selectedCoin1 && selectedCoin1.id === coin.id}
                 >
                   <img
                     src={coin.image}
@@ -190,7 +219,6 @@ function Change() {
         </div>
       </div>
 
-      {/* Новый блок для отображения выбранных монет и курса */}
       <div className="selected-info-container">
         {selectedCoin1 && selectedCoin2 && (
           <div className="selected-info">
@@ -227,7 +255,7 @@ function Change() {
       <Link
         to={REQUEST_ROUTE}
         className="create-btn"
-        onClick={handleCreateRequest} // Обработчик клика для создания заявки
+        onClick={handleCreateRequest}
       >
         Создать заявку
       </Link>
@@ -235,16 +263,15 @@ function Change() {
         <ReviewsList />
       </div>
       <ToastContainer
-      className="toast-container" // Устанавливаем класс для Toast-уведомлений
-        position="fixed" // Устанавливаем позицию Toast-уведомления
-        autoClose={5000} // Время, через которое уведомление автоматически закроется
-        hideProgressBar={false} // Показываем прогресс-бар
-        closeOnClick // Закрытие уведомления по клику
-        pauseOnHover // Пауза при наведении
-        draggable // Перетаскивание уведомления
-        pauseOnFocusLoss // Пауза при потере фокуса
-        theme="dark" // Тема уведомлений
-        
+        className="toast-container"
+        position="fixed"
+        autoClose={5000}
+        hideProgressBar={false}
+        closeOnClick
+        pauseOnHover
+        draggable
+        pauseOnFocusLoss
+        theme="dark"
       />
     </div>
   );

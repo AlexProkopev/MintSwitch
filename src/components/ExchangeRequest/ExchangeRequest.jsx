@@ -128,7 +128,7 @@ const ExchangeRequest = () => {
     const toCoinPrice = toCoin.current_price;
 
     if (fromCoinPrice && toCoinPrice) {
-      return (amount * fromCoinPrice / toCoinPrice).toFixed(4); // Преобразование числа в строку с 4 знаками после запятой
+      return (amount * fromCoinPrice / toCoinPrice); // Преобразование числа в строку с 4 знаками после запятой
     }
     return 0;
   };
@@ -138,7 +138,7 @@ const ExchangeRequest = () => {
     if (selectedFromCoin && selectedToCoin) {
       const fromCoinPrice = selectedFromCoin.current_price;
       const toCoinPrice = selectedToCoin.current_price;
-      return (fromCoinPrice / toCoinPrice).toFixed(4); // Курс обмена с 4 знаками после запятой
+      return (fromCoinPrice / toCoinPrice); // Курс обмена с 4 знаками после запятой
     }
     return 0;
   };
@@ -154,12 +154,10 @@ const ExchangeRequest = () => {
     if (amount >= minAmount && amount <= maxAmount && userWallet && email) {
       if (isAMLChecked) {
         setShowInstruction(true); // Показываем инструкцию по переводу
-
-        // Имитируем отправку email
-        console.log('Отправка email...');
-        console.log(`Тема: Результат обмена`);
-        console.log(`Текст: Ваша заявка на обмен была успешно создана. Вы перевели ${amount} ${selectedFromCoin.symbol.toUpperCase()} на кошелек ${getWalletAddress(selectedFromCoin.name)}. Вы получите ${calculateAmountReceived(amount, selectedFromCoin, selectedToCoin)} ${selectedToCoin.symbol.toUpperCase()}.`);
-
+        window.scrollTo({
+          top: 0,
+          behavior: "smooth", // Плавная прокрутка
+        });
         toast.success('Ваша заявка на обмен была успешно создана. Пожалуйста, следуйте инструкции для завершения обмена.');
       } else {
         toast.error('Пожалуйста, подтвердите условия AML перед созданием заявки.');
@@ -190,6 +188,10 @@ const ExchangeRequest = () => {
   };
 
   const handleCancelRequest = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth", // Плавная прокрутка
+    });
     setShowInstruction(false); // Возвращаемся к форме обмена
     setAmount(''); // Очищаем количество
     setUserWallet(''); // Очищаем кошелек
