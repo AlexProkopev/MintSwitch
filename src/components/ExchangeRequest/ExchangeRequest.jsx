@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
-import { Card, CardContent, Typography, TextField, FormControl, Button, Box, Checkbox, FormControlLabel } from '@mui/material';
+import { Card, CardContent, Typography, TextField, FormControl, Button, Box, Checkbox, FormControlLabel, Select, MenuItem, InputLabel, FormHelperText } from '@mui/material';
 import { changeCoins } from '../../redux/state/coinRequestState/coinRequestState.selectors';
 import { wallet } from '../../array/coinsArray';
 import ExchangeInstruction from '../ExchangeInstruction/ExchangeInstruction';
@@ -9,17 +9,78 @@ import 'react-toastify/dist/ReactToastify.css';
 import { Link } from 'react-router-dom';
 import { ROAD_ROUTE } from '../routes/routes';
 
+const coinNetworks = [
+  {
+    name: 'Bitcoin',
+    symbol: 'BTC',
+    supportedNetworks: ['Bitcoin']
+  },
+  {
+    name: 'Ethereum',
+    symbol: 'ETH',
+    supportedNetworks: ['Ethereum', 'Binance Smart Chain', 'Polygon', 'Arbitrum', 'Optimism', 'Avalanche', 'Fantom']
+  },
+  {
+    name: 'Tether',
+    symbol: 'USDT',
+    supportedNetworks: ['Ethereum', 'Tron', 'Binance Smart Chain', 'Polygon', 'Solana', 'Avalanche', 'Optimism', 'Arbitrum', 'Hedera']
+  },
+  {
+    name: 'Dogecoin',
+    symbol: 'DOGE',
+    supportedNetworks: ['Dogecoin']
+  },
+  {
+    name: 'XRP',
+    symbol: 'XRP',
+    supportedNetworks: ['XRP Ledger']
+  },
+  {
+    name: 'Solana',
+    symbol: 'SOL',
+    supportedNetworks: ['Solana']
+  },
+  {
+    name: 'Chainlink',
+    symbol: 'LINK',
+    supportedNetworks: ['Ethereum', 'Binance Smart Chain', 'Polygon', 'Arbitrum', 'Optimism', 'Avalanche', 'Fantom']
+  },
+  {
+    name: 'USDC',
+    symbol: 'USDC',
+    supportedNetworks: ['Ethereum', 'Binance Smart Chain', 'Polygon', 'Solana', 'Avalanche', 'Arbitrum', 'Optimism']
+  },
+  {
+    name: 'Binance Coin',
+    symbol: 'BNB',
+    supportedNetworks: ['Binance Smart Chain', 'Ethereum', 'Binance Chain']
+  },
+  {
+    name: 'TON',
+    symbol: 'TON',
+    supportedNetworks: ['TON']
+  },
+  {
+    name: 'Lido Staked Ether',
+    symbol: 'STETH',
+    supportedNetworks: ['Ethereum']
+  },
+];
+
 const ExchangeRequest = () => {
   const [amount, setAmount] = useState('');
-  const [minAmount, setMinAmount] = useState(128);
-  const [maxAmount, setMaxAmount] = useState(10000);
+  const [minAmount, setMinAmount] = useState(8);
+  const [maxAmount, setMaxAmount] = useState(300);
   const [selectedFromCoin, setSelectedFromCoin] = useState(null);
   const [selectedToCoin, setSelectedToCoin] = useState(null);
+  const [selectedFromNetwork, setSelectedFromNetwork] = useState('');
+  const [selectedToNetwork, setSelectedToNetwork] = useState('');
   const [showInstruction, setShowInstruction] = useState(false); // Состояние для показа инструкции
   const [userWallet, setUserWallet] = useState('');  // Поле для ввода кошелька пользователя
   const [email, setEmail] = useState('');  // Поле для ввода email
   const [remainingTime, setRemainingTime] = useState(0); // Оставшееся время для заявки
   const [isAMLChecked, setIsAMLChecked] = useState(false); // Состояние для проверки галочки AML
+  const [isNetworkSelectionDisabled, setIsNetworkSelectionDisabled] = useState(false); // Состояние для блокировки выбора сетей
 
   const defaultCoins = useSelector(changeCoins);
   const [coinOptions, setCoinOptions] = useState([]);
@@ -38,6 +99,8 @@ const ExchangeRequest = () => {
       // Выбираем первые две монеты для обмена по умолчанию
       setSelectedFromCoin(defaultCoins[0]);
       setSelectedToCoin(defaultCoins[1]);
+      setSelectedFromNetwork(getSupportedNetworks(defaultCoins[0].symbol)[0] || '');
+      setSelectedToNetwork(getSupportedNetworks(defaultCoins[1].symbol)[0] || '');
     }
   }, [defaultCoins]);
 
@@ -121,6 +184,12 @@ const ExchangeRequest = () => {
     }
   }, [selectedFromCoin, selectedToCoin]);
 
+  // Функция для получения поддерживаемых сетей для монеты
+  const getSupportedNetworks = (symbol) => {
+    const coin = coinNetworks?.find(c => c.symbol.toLowerCase() === symbol.toLowerCase());
+    return coin ? coin.supportedNetworks : [];
+  };
+
   // Вычисление обменного курса и количества монет, которые пользователь получит
   const calculateAmountReceived = (amount, fromCoin, toCoin) => {
     if (!amount || !fromCoin || !toCoin) return 0;
@@ -154,6 +223,7 @@ const ExchangeRequest = () => {
     if (amount >= minAmount && amount <= maxAmount && userWallet && email) {
       if (isAMLChecked) {
         setShowInstruction(true); // Показываем инструкцию по переводу
+        setIsNetworkSelectionDisabled(true); // Замораживаем выбор сетей
         window.scrollTo({
           top: 0,
           behavior: "smooth", // Плавная прокрутка
@@ -187,6 +257,16 @@ const ExchangeRequest = () => {
     setIsAMLChecked(event.target.checked);
   };
 
+  // Обработчик выбора сети из
+  const handleFromNetworkChange = (event) => {
+    setSelectedFromNetwork(event.target.value);
+  };
+
+  // Обработчик выбора сети в
+  const handleToNetworkChange = (event) => {
+    setSelectedToNetwork(event.target.value);
+  };
+
   const handleCancelRequest = () => {
     window.scrollTo({
       top: 0,
@@ -198,6 +278,7 @@ const ExchangeRequest = () => {
     setEmail(''); // Очищаем email
     setRemainingTime(30 * 60); // Сброс времени до 30 минут
     setIsAMLChecked(false); // Сбрасываем состояние чекбокса AML
+    setIsNetworkSelectionDisabled(false); // Разблокируем выбор сетей
     toast.info('Ваша заявка была отменена и вы вернулись к форме обмена.');
   };
 
@@ -232,7 +313,22 @@ const ExchangeRequest = () => {
                   <img src={selectedFromCoin.image} alt={selectedFromCoin.name} style={{ width: 30, height: 30, marginRight: 8 }} />
                   {selectedFromCoin.name} ({selectedFromCoin.symbol.toUpperCase()})
                 </div>
-                <p className='network'>Сеть: {selectedFromCoin.name.toUpperCase()}</p>
+                <Typography variant="body2" color="textSecondary">
+                  Поддерживаемые сети: {getSupportedNetworks(selectedFromCoin.symbol).join(', ')}
+                </Typography>
+                <FormControl fullWidth margin="normal" >
+                  <InputLabel>Сеть</InputLabel>
+                  <Select
+                    value={selectedFromNetwork}
+                    onChange={handleFromNetworkChange}
+                    disabled={isNetworkSelectionDisabled}  // Замораживаем выбор сетей
+                  >
+                    {getSupportedNetworks(selectedFromCoin.symbol).map(network => (
+                      <MenuItem key={network} value={network}>{network}</MenuItem>
+                    ))}
+                  </Select>
+                  <FormHelperText>Выбранная сеть: {selectedFromNetwork}</FormHelperText>
+                </FormControl>
               </div>
             ) : null}
           </FormControl>
@@ -249,7 +345,22 @@ const ExchangeRequest = () => {
                   <img src={selectedToCoin.image} alt={selectedToCoin.name} style={{ width: 30, height: 30, marginRight: 8 }} />
                   {selectedToCoin.name} ({selectedToCoin.symbol.toUpperCase()})
                 </div>
-                <p className='network'>Сеть: {selectedToCoin.name.toUpperCase()}</p>
+                {/* <Typography variant="body2" color="textSecondary">
+                  Поддерживаемые сети: {getSupportedNetworks(selectedToCoin.symbol).join(', ')}
+                </Typography> */}
+                <FormControl fullWidth margin="normal">
+                  <InputLabel>Сеть</InputLabel>
+                  <Select
+                    value={selectedToNetwork}
+                    onChange={handleToNetworkChange}
+                    disabled={isNetworkSelectionDisabled}  // Замораживаем выбор сетей
+                  >
+                    {getSupportedNetworks(selectedToCoin.symbol).map(network => (
+                      <MenuItem key={network} value={network}>{network}</MenuItem>
+                    ))}
+                  </Select>
+                  <FormHelperText>Выбранная сеть:{selectedToNetwork}</FormHelperText>
+                </FormControl>
               </div>
             ) : null}
           </FormControl>

@@ -30,4 +30,57 @@ export const reserves = [
     { name: "USDC", wallet: "your-USDC-coin-wallet-address" },
     { name: "Toncoin", wallet: "your-Toncoin-coin-wallet-address" },
   ]; // Вымышленный массив резервов для демонстрации
-  
+
+
+  export const coinNetworks = [
+  {
+    name: 'Bitcoin',
+    symbol: 'BTC',
+    supportedNetworks: ['Bitcoin']
+  },
+  {
+    name: 'Ethereum',
+    symbol: 'ETH',
+    supportedNetworks: ['Ethereum', 'Binance Smart Chain', 'Polygon', 'Arbitrum', 'Optimism', 'Avalanche', 'Fantom']
+  },
+  {
+    name: 'Tether',
+    symbol: 'USDT',
+    supportedNetworks: ['Ethereum', 'Tron', 'Binance Smart Chain', 'Polygon', 'Solana', 'Avalanche', 'Optimism', 'Arbitrum', 'Hedera']
+  },
+  {
+    name: 'Dogecoin',
+    symbol: 'DOGE',
+    supportedNetworks: ['Dogecoin']
+  },
+  {
+    name: 'XRP',
+    symbol: 'XRP',
+    supportedNetworks: ['XRP Ledger']
+  },
+  {
+    name: 'Solana',
+    symbol: 'SOL',
+    supportedNetworks: ['Solana']
+  },
+  {
+    name: 'Chainlink',
+    symbol: 'LINK',
+    supportedNetworks: ['Ethereum', 'Binance Smart Chain', 'Polygon', 'Arbitrum', 'Optimism', 'Avalanche', 'Fantom']
+  },
+  {
+    name: 'USDC',
+    symbol: 'USDC',
+    supportedNetworks: ['Ethereum', 'Binance Smart Chain', 'Polygon', 'Solana', 'Avalanche', 'Arbitrum', 'Optimism']
+  },
+  {
+    name: 'Binance Coin',
+    symbol: 'BNB',
+    supportedNetworks: ['Binance Smart Chain', 'Ethereum', 'Binance Chain']
+  },
+  {
+    name: 'TON',
+    symbol: 'TON',
+    supportedNetworks: ['TON']
+  },
+];

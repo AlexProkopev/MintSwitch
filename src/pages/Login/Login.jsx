@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import { Formik, Form, Field } from 'formik';
 import * as Yup from 'yup';
-import Captcha from '../../components/Captcha/Captcha';  // Импортируем новый компонент
+import Captcha from '../../components/Captcha/Captcha';  // Импортируем новый компонент капчи
 
 import css from './Login.module.css';
 import { selectIsLoading } from '../../redux/state/autentification/authentification.selectors';
@@ -24,18 +24,21 @@ const validationSchema = Yup.object({
 
 const Login = () => {
   const dispatch = useDispatch();
-  const navigate = useNavigate();  // Хук для навигации
+  const navigate = useNavigate();
   const isLoading = useSelector(selectIsLoading);
 
   const [captchaAnswer, setCaptchaAnswer] = useState(null);  // Хранение правильного ответа капчи
+  const [isCaptchaCorrect, setIsCaptchaCorrect] = useState(false);
 
-  const handleCaptchaChange = (answer) => {
+  const handleCaptchaChange = (isCorrect, answer) => {
     setCaptchaAnswer(answer);  // Сохраняем правильный ответ капчи
+    setIsCaptchaCorrect(isCorrect);  // Обновление состояния правильности капчи
   };
 
   const handleSubmit = (values, { setSubmitting }) => {
-    if (!captchaAnswer) {
-      Notify.failure('Пожалуйста, пройдите проверку капчи');
+    console.log(values);
+    if (!isCaptchaCorrect) {
+    
       setSubmitting(false);
       return;
     }
@@ -78,7 +81,13 @@ const Login = () => {
                 className={css.inputLogIn}
               />
               <Captcha onCaptchaChange={handleCaptchaChange} />  {/* Добавляем компонент капчи */}
-              
+              <button 
+                type="submit" 
+                className={css.btnLogIN}
+                disabled={isSubmitting || !isCaptchaCorrect}  
+              >
+                Войти
+              </button>
             </Form>
           )}
         </Formik>

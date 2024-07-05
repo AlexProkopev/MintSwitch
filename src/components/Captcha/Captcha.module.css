@@ -2,79 +2,71 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin: 20px 0; /* Увеличим отступы для лучшего восприятия */
+  margin: 10px 0;
 }
 
 .captcha {
-  color: black;
   display: flex;
   align-items: center;
   font-size: 24px;
+  color: black;
   font-weight: bold;
-  /* background-color: #f9f9f9; Светлый фон для лучшего контраста */
-  padding: 15px;
-  border-radius: 8px;
-  /* box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Мягкая тень для акцента */
-  /* border: 2px solid #ddd; Легкая рамка */ 
+  background-color: #f0f0f0;
+  padding: 10px;
+  border-radius: 5px;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+  margin-bottom: 20px;
 }
 
-.number{
-  margin: 0 8px; /* Больше отступов для четкости */
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
- border: 2px solid #ddd; 
- width: 30px;
+.number, .operator {
+  margin: 0 5px;
 }
 
-.operator {
-  margin: 0 8px; /* Больше отступов для четкости */
+.optionsContainer {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
 }
 
-.inputCaptcha {
-  
-  margin-top: 15px; /* Увеличим отступ между капчей и полем ввода */
-  padding: 12px;
+.optionButton {
+  margin: 0 10px;
+  padding: 10px 20px;
   font-size: 18px;
-  border: 2px solid #ddd; /* Более заметная граница */
-  border-radius: 8px;
-  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1); /* Внутренняя тень для глубины */
-  outline: none; /* Убираем стандартный фокус */
-  transition: border-color 0.3s ease; /* Плавный переход для фокуса */
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: #fff;
+  cursor: pointer;
+  transition: background-color 0.3s, box-shadow 0.3s;
 }
 
-.inputCaptcha:focus {
-  border-color: #007bff; /* Синяя граница при фокусе */
-  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5); /* Синяя тень при фокусе */
+.optionButton:hover {
+  background-color: #f0f0f0;
+}
+
+.optionButton.correct {
+  background-color: #28a745;
+  color: #fff;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+}
+
+.optionButton.incorrect {
+  background-color: #dc3545;
+  color: #fff;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
 }
 
 .btnCaptcha {
-  margin-top: 15px; /* Увеличиваем отступ для лучшего размещения */
-  padding: 12px 24px;
-  font-size: 18px;
+  padding: 10px 20px;
+  font-size: 16px;
   border: none;
-  border-radius: 8px;
-  background-color: #28a745; /* Зеленый фон */
+  border-radius: 5px;
+  background-color: #007bff;
   color: #fff;
   cursor: pointer;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Легкая тень для кнопки */
-  transition: background-color 0.3s ease, box-shadow 0.3s ease; /* Плавный переход фона и тени */
-}
-
-.btnCaptcha:hover {
-  background-color: #218838; /* Темнее зеленый при наведении */
+  transition: background-color 0.3s, box-shadow 0.3s;
 }
 
 .btnCaptcha:disabled {
-  background-color: #6c757d; /* Серый фон для неактивной кнопки */
+  background-color: #ddd;
   cursor: not-allowed;
-}
-
-.btnCaptcha:disabled:hover {
-  background-color: #6c757d; /* Сохранение серого фона при наведении */
-}
-
-.captchaText {
-  margin-bottom: 10px; /* Отступ между капчей и полем ввода */
-  color: #333; /* Темный текст для капчи */
-  font-size: 18px; /* Увеличиваем размер текста для лучшей читаемости */
-  font-weight: bold;
 }

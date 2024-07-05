@@ -5,43 +5,64 @@ const Captcha = ({ onCaptchaChange }) => {
   const [num1, setNum1] = useState(0);
   const [num2, setNum2] = useState(0);
   const [operator, setOperator] = useState('+');
-  const [userAnswer, setUserAnswer] = useState('');
   const [correctAnswer, setCorrectAnswer] = useState(0);
+  const [options, setOptions] = useState([]);
+  const [selectedAnswer, setSelectedAnswer] = useState(null);
+  const [isAnswerCorrect, setIsAnswerCorrect] = useState(false);
 
  
+
+  useEffect(() => {
+    onCaptchaChange(isAnswerCorrect);
+  }, [isAnswerCorrect, onCaptchaChange]);
 
   
 
   useEffect(() => {
     const generateCaptcha = () => {
-        const a = Math.floor(Math.random() * 10) + 1;
-        const b = Math.floor(Math.random() * 10) + 1;
-        const operators = ['+', '-'];
-        const op = operators[Math.floor(Math.random() * operators.length)];
-    
-        setNum1(a);
-        setNum2(b);
-        setOperator(op);
-    
-        let answer;
-        if (op === '+') {
-          answer = a + b;
-        } else {
-          answer = a - b;
-        }
-    
-        setCorrectAnswer(answer);
-        onCaptchaChange(answer);  // Передаем правильный ответ в родительский компонент
-      };
-      generateCaptcha()
-  }, [onCaptchaChange]);
+      const a = Math.floor(Math.random() * 10) + 1;
+      const b = Math.floor(Math.random() * 10) + 1;
+      const operators = ['+', '-'];
+      const op = operators[Math.floor(Math.random() * operators.length)];
+  
+      setNum1(a);
+      setNum2(b);
+      setOperator(op);
+  
+      let answer;
+      if (op === '+') {
+        answer = a + b;
+      } else {
+        answer = a - b;
+      }
+      setCorrectAnswer(answer);
+  
+      const randomOptions = generateOptions(answer);
+      setOptions(randomOptions);
+      setSelectedAnswer(null);
+      setIsAnswerCorrect(false);
+    };
+    generateCaptcha();
+  }, []);
 
-  const handleChange = (e) => {
-    setUserAnswer(e.target.value);
+  const generateOptions = (correctAnswer) => {
+    const options = new Set();
+    options.add(correctAnswer);
+
+    while (options.size < 4) {
+      options.add(Math.floor(Math.random() * 20) - 10); // Генерация случайных чисел от -10 до 20
+    }
+
+    return Array.from(options).sort(() => Math.random() - 0.5); // Перемешивание опций
   };
 
-  const isAnswerCorrect = () => {
-    return Number(userAnswer) === correctAnswer;
+  const handleAnswerClick = (answer) => {
+    setSelectedAnswer(answer);
+    if (answer === correctAnswer) {
+      setIsAnswerCorrect(true);
+    } else {
+      setIsAnswerCorrect(false);
+    }
   };
 
   return (
@@ -50,18 +71,20 @@ const Captcha = ({ onCaptchaChange }) => {
         <span className={css.number}>{num1}</span>
         <span className={css.operator}>{operator}</span>
         <span className={css.number}>{num2}</span>
-        <span>=</span>
+        <span>= ?</span>
       </div>
-      <input
-        type="number"
-        value={userAnswer}
-        onChange={handleChange}
-        placeholder="Введите ответ"
-        className={css.inputCaptcha}
-      />
-      <button className={css.btnCaptcha} disabled={!isAnswerCorrect()}>
-        Войти
-      </button>
+      <div className={css.optionsContainer}>
+        {options.map((option, index) => (
+          <button
+            key={index}
+            className={`${css.optionButton} 
+                        ${selectedAnswer === option ? (option === correctAnswer ? css.correct : css.incorrect) : ''}`}
+            onClick={() => handleAnswerClick(option)}
+          >
+            {option}
+          </button>
+        ))}
+      </div>
     </div>
   );
 };
