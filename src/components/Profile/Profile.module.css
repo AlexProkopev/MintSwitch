@@ -1,130 +1,132 @@
-/* Profile.module.css */
-
-/* Импорт шрифта Roboto */
-@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
-
-* {
-  font-family: 'Roboto', sans-serif;
-}
-
 .profileContainer {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  background: #f0f2f5;
-  padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Тень для контейнера профиля */
   max-width: 600px;
   margin: 0 auto;
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  font-family: Arial, sans-serif;
+  display: flex;
+  flex-direction: column;
 }
 
-.avatarContainer {
-  margin-bottom: 20px;
-}
-
-.avatar {
-  width: 100px;
-  height: 100px;
-  border-radius: 50%;
-  object-fit: cover;
-  border: 4px solid #007bff; /* Рамка вокруг аватара */
-}
-
-.profileTitle {
-  font-size: 24px;
-  font-weight: bold;
-  margin-bottom: 10px;
-  color: #333; /* Цвет заголовка */
-}
-
-.profileDetails {
-  font-size: 16px;
-  color: #666; /* Цвет текста профиля */
-  margin-bottom: 20px;
-  line-height: 1.5; /* Межстрочный интервал */
-}
-
-.btnLogout {
-  padding: 10px 20px;
-  font-size: 16px;
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #6a1b9a;
   color: #fff;
-  background: #dc3545; /* Цвет кнопки выхода */
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  transition: background 0.3s;
+  padding: 10px 20px;
 }
 
-.btnLogout:hover {
-  background: #c82333; /* Цвет кнопки выхода при наведении */
+.logo {
+  font-size: 1.5em;
+  font-weight: bold;
+}
+
+.profileIcon img {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+}
+
+.mainContent {
+  padding: 20px;
+  flex: 1;
+}
+
+.profileInfo {
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
+}
+
+.profileDetailsContainer {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+
+.email {
+  font-weight: bold;
+}
+
+.exchangeInfo {
+  color: #777;
 }
 
 .transactionHistory {
-  width: 100%;
+  margin-top: 20px;
 }
 
-.historyTitle {
-  font-size: 20px;
-  font-weight: bold;
-  margin-bottom: 10px;
-  color: #333; /* Цвет заголовка истории */
+.transactionHistory h2 {
+  margin: 0;
+  font-size: 1.2em;
 }
 
 .noTransactions {
   text-align: center;
-  color: #999; /* Цвет текста при отсутствии транзакций */
+  margin-top: 20px;
 }
 
-.transactionList {
-  list-style: none;
-  padding: 0;
-  margin: 0;
+.noTransactions img {
+  width: 100px;
+  height: auto;
 }
 
-.transactionItem {
-  background: #fff;
-  padding: 15px;
-  margin-bottom: 10px;
-  border-radius: 4px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Тень для транзакции */
+.noTransactions p {
+  color: #777;
+  margin-top: 10px;
 }
 
-.transactionItem p {
-  margin: 5px 0;
-  color: #666; /* Цвет текста транзакций */
-}
-
-@media (min-width: 768px) {
-  .profileTitle {
-    font-size: 28px;
+@media (max-width: 600px) {
+  .profileContainer {
+    margin: 10px;
+    box-shadow: none;
+    border-radius: 0;
   }
 
-  .profileDetails {
-    font-size: 18px;
+  .header {
+    flex-direction: column;
+    text-align: center;
   }
 
-  .btnLogout {
-    padding: 12px 24px;
-    font-size: 18px;
-  }
-}
-
-@media (min-width: 1024px) {
-  .profileTitle {
-    font-size: 32px;
+  .logo {
+    margin-bottom: 10px;
   }
 
-  .profileDetails {
-    font-size: 20px;
+  .profileIcon img {
+    width: 30px;
+    height: 30px;
   }
 
-  .btnLogout {
-    padding: 14px 28px;
-    font-size: 20px;
+  .profileInfo {
+    flex-direction: column;
+    align-items: flex-start;
   }
 
-  .transactionItem {
-    padding: 20px;
+  .profileDetailsContainer {
+    align-items: flex-start;
+  }
+
+  .mainContent {
+    padding: 10px;
+  }
+
+  .email {
+    font-size: 1em;
+  }
+
+  .exchangeInfo {
+    font-size: 0.9em;
+  }
+
+  .transactionHistory h2 {
+    font-size: 1em;
+  }
+
+  .noTransactions img {
+    width: 80px;
   }
 }

@@ -20,6 +20,7 @@ import Registration from "./pages/Registration/Registration";
 import CryptoTable from "./pages/CryptoTable/CryptoTable";
 import AMLPolicy from "./pages/AMLPolicy/AMLPolicy";
 import Terms from "./pages/Terms/Terms";
+import ReviewsList from "./components/Reviews/Reviews";
 
 
 
@@ -37,6 +38,7 @@ function App() {
           <Route path={AUTH_ROUTE} element={<Login />} />
           <Route path={CRYPTOTABLE_ROUTE} element={<CryptoTable />} />
           <Route path={TERMS_ROUTE} element={<Terms />} />
+          <Route path="reviews" element={<ReviewsList />} /> 
         </Routes>
        
       </div>

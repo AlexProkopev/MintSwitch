@@ -7,6 +7,7 @@ import { initialReviews } from './array';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { useSelector } from 'react-redux';
 import { selectIsAutorization } from '../../redux/state/autentification/authentification.selectors';
+import Loader from '../Loader/Loader';
 
 
 // Стили для компонента
@@ -78,7 +79,6 @@ const ReviewsList = () => {
       const newReview = {
         name,
         date: new Date().toISOString().split('T')[0], // Форматирование даты в YYYY-MM-DD
-        gender: 'не указан', // Можно добавить логику для выбора пола
         review: reviewText,
       };
 
@@ -126,7 +126,7 @@ const ReviewsList = () => {
                   borderColor: '#007bff',
                 },
                 '&.Mui-focused fieldset': {
-                  borderColor: '#007bff',
+                  borderColor: '#fff',
                 },
               },
             }}
@@ -159,7 +159,7 @@ const ReviewsList = () => {
                   borderColor: '#007bff',
                 },
                 '&.Mui-focused fieldset': {
-                  borderColor: '#007bff',
+                  borderColor: '#fff',
                 },
               },
             }}
@@ -195,7 +195,7 @@ const ReviewsList = () => {
                   borderColor: '#007bff',
                 },
                 '&.Mui-focused fieldset': {
-                  borderColor: '#007bff',
+                  borderColor: '#fff',
                 },
               },
             }}
@@ -209,7 +209,7 @@ const ReviewsList = () => {
         dataLength={items.length} // Количество отзывов, которые уже загружены
         next={fetchMoreData} // Функция для загрузки дополнительных данных
         hasMore={hasMore} // Определяет, есть ли еще данные для загрузки
-        loader={<h4>Загрузка...</h4>} // Компонент или текст, который отображается во время загрузки
+        loader={<Loader/>} // Компонент или текст, который отображается во время загрузки
       >
         <h2>
           Последние 100 отзывов

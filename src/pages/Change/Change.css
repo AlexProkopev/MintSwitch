@@ -4,22 +4,29 @@
 /* Основной контейнер */
 .container {
   display: flex;
-  flex-direction: column; /* Выстраиваем элементы вертикально */
+  flex-direction: column;
   padding: 20px;
   max-width: 1200px;
   margin: 0 auto;
   font-family: "Roboto, sans-serif";
-  border-radius: 8px; /* Скругляем углы контейнера */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Тень для контейнера */
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+ 
 }
 
 /* Контейнер для списков */
 .lists-container {
   display: flex;
+  flex-direction: column;
   align-items: center;
-  justify-content: center; /* Выравнивание по верху контейнера */
   gap: 20px;
-  margin-bottom: 20px; /* Отступ снизу, чтобы была видна кнопка */
+  margin-bottom: 20px;
+}
+
+@media (min-width: 769px) {
+  .lists-container {
+    flex-direction: row;
+  }
 }
 
 /* Общие стили для списков монет */
@@ -27,8 +34,9 @@
   list-style: none;
   padding: 0;
   display: flex;
-  flex-direction: column; /* Вертикальное выравнивание */
+  flex-wrap: wrap;
   gap: 15px;
+  justify-content: center;
 }
 
 /* Стили для элементов списка монет */
@@ -36,34 +44,35 @@
   display: flex;
   flex-direction: column;
   align-items: center;
- 
-  background-color: #f9f9f9; /* Легкий фон для элементов списка */
-  border-radius: 10px; /* Скругленные углы для элементов списка */
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Тень для элементов списка */
+  background-color: #f9f9f9;
+  border-radius: 10px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
   padding: 10px;
-  transition: background-color 0.3s ease, box-shadow 0.3s ease; /* Плавный переход для фона и тени */
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+  width: 100px; /* Фиксированная ширина для элементов */
+  text-align: center;
 }
 
 /* Эффект наведения на элементы списка */
 .listFirst li:hover, .listSecond li:hover {
-  background-color: #e7f0ff; /* Легкий голубой фон при наведении */
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Усиленная тень при наведении */
+  background-color: #e7f0ff;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
 }
 
 /* Стили для кнопки монет */
 .coin-button {
-  border: 2px solid transparent; /* Начальная рамка прозрачная */
+  border: 2px solid transparent;
   border-radius: 8px;
   padding: 5px;
-  background-color: #ffffff; /* Белый фон для кнопок */
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Тень для кнопок */
+  background-color: #ffffff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   cursor: pointer;
-  transition: all 0.3s ease; /* Плавный переход для эффектов */
-  width: 80px; /* Фиксированная ширина кнопки */
-  height: 80px; /* Фиксированная высота кнопки */
+  transition: all 0.3s ease;
+  max-width: 80px;
+  max-height: 80px;
   display: flex;
   align-items: center;
-  justify-content: center; /* Центрирование изображения внутри кнопки */
+  justify-content: center;
 }
 
 /* Размер изображения монеты внутри кнопки */
@@ -74,10 +83,9 @@
 
 /* Стили для выбранной кнопки монеты */
 .coin-button.selected {
-  border-color: #007bff; /* Синяя рамка для выбранных кнопок */
-  background-color: #e7f0ff; /* Легкий голубой фон для выбранных кнопок */
-  transform: scale(1.1); /* Увеличение выбранной кнопки */
-  box-shadow: 0 0 12px rgba(0, 123, 255, 0.5); /* Усиленная тень для выбранных кнопок */
+  border-color: #007bff;
+  background-color: #e7f0ff;
+  box-shadow: 0 0 12px rgba(0, 123, 255, 0.5);
 }
 
 /* Стили для неактивной кнопки */
@@ -117,6 +125,7 @@
   border-radius: 8px;
   background-color: #ffffff;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
 }
 
 /* Контейнер для информации о выбранных монетах */
@@ -157,8 +166,8 @@
 /* Стили для отображения курса обмена */
 .exchange-rate-info {
   text-align: center;
-  font-size: 18px; /* Размер шрифта */
-  color: #333; /* Цвет текста */
+  font-size: 18px;
+  color: #333;
   margin: 10px 0;
 }
 
@@ -170,14 +179,15 @@
 .create-btn {
   display: block;
   margin-top: 20px;
+  margin-bottom: 15px;
   padding: 12px 20px;
   text-align: center;
   background-color: #007bff;
   color: #fff;
   text-decoration: none;
   border-radius: 5px;
-  font-size: 18px; /* Увеличили размер шрифта */
-  transition: background-color 0.3s ease; /* Плавный переход для фона */
+  font-size: 18px;
+  transition: background-color 0.3s ease;
 }
 
 .create-btn:hover {
@@ -193,12 +203,12 @@
 }
 
 .amount-container label {
-  font-size: 16px; /* Размер шрифта */
+  font-size: 16px;
 }
 
 .amount-container input {
   padding: 10px;
-  font-size: 16px; /* Размер шрифта */
+  font-size: 16px;
   border: 1px solid #ddd;
   border-radius: 5px;
   box-sizing: border-box;
@@ -208,8 +218,8 @@
 .exchange-rate {
   margin: 20px 0;
   text-align: center;
-  font-size: 18px; /* Размер шрифта */
-  color: #007bff; /* Синий цвет для курса обмена */
+  font-size: 18px;
+  color: #007bff;
 }
 
 /* Результат обмена */
@@ -217,20 +227,32 @@
   font-family: "Roboto, sans-serif";
   margin: 20px 0;
   text-align: center;
-  font-size: 18px; /* Размер шрифта */
-  color: #ffffff; /* Белый цвет для текста */
+  font-size: 18px;
+  color: #ffffff;
 }
+.reviews-title {
+  
+  font-size: 20px;
+  margin-bottom: 10px;
+  margin-top: 40px;
+  text-align: center;
 
+}
 
 
 
 /* Медиа-запросы для адаптации под мобильные устройства и планшеты */
 @media (max-width: 768px) {
+  
   .toast-container {
     position: fixed !important;
     top: 10px;
     right: 10px;
     z-index: 1000;
+  }
+
+  .lists-container {
+    flex-direction: column;
   }
 
   .coin-button img {
@@ -269,8 +291,6 @@
     height: 40px;
   }
 
-  
-
   .priceInfo {
     font-size: 12px;
     padding: 4px;
@@ -296,5 +316,14 @@
 
   .exchange-rate {
     font-size: 14px;
+  }
+
+  .reviews-title {
+    font-family: "Roboto,sans serif";
+    font-size: 20px;
+    margin-bottom: 10px;
+    margin-top: 40px;
+    text-align: center;
+
   }
 }

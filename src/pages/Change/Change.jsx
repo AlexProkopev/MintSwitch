@@ -4,18 +4,17 @@ import "./Change.css";
 import { Link, useNavigate } from "react-router-dom";
 import { REQUEST_ROUTE } from "../../components/routes/routes";
 import ChangeIcon from "./ChangeIcon/ChangeIcon";
-import { reserves } from "../../array/coinsArray";
+
 import ReviewsList from "../../components/Reviews/Reviews";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Loader from "../../components/Loader/Loader";
+import Reserver from "../../components/Reserves/Reserver";
 
 function Change() {
   const [coins, setCoins] = useState([]);
   const [selectedCoin1, setSelectedCoin1] = useState(null);
   const [selectedCoin2, setSelectedCoin2] = useState(null);
-  const [priceToShow1, setPriceToShow1] = useState(null);
-  const [priceToShow2, setPriceToShow2] = useState(null);
   const [exchangeRate, setExchangeRate] = useState(null);
   const [amountCoin2, setAmountCoin2] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -124,24 +123,17 @@ function Change() {
         return;
       } else {
         setSelectedCoin1(coin);
-        setPriceToShow1(coin.id);
       }
     } else if (listNumber === 2) {
       if (selectedCoin1 && selectedCoin1.id === coin.id) {
         return;
       } else {
         setSelectedCoin2(coin);
-        setPriceToShow2(coin.id);
       }
     }
   };
 
-  const getReserve = (name) => {
-    const reserve = reserves.find(
-      (r) => r.name.toLowerCase() === name.toLowerCase()
-    );
-    return reserve ? reserve.reserve : "No Reserve";
-  };
+
 
   const handleCreateRequest = (event) => {
     event.preventDefault();
@@ -152,9 +144,11 @@ function Change() {
     toast.success(
       "Заявка создана! Пожалуйста, следуйте далее для завершения процесса обмена."
     );
+    setLoading(true);
 
     setTimeout(() => {
       navigate(REQUEST_ROUTE);
+      setLoading(false);
     }, 1000);
   };
 
@@ -179,12 +173,10 @@ function Change() {
                     alt={coin.name}
                   />
                 </button>
-                {priceToShow1 === coin.id && (
-                  <div className="priceInfo">{coin.current_price} USD</div>
-                )}
-                <div className="reserveInfo">
+                <div className="priceInfo">{coin.current_price.toFixed(3)} USD</div>
+                {/* <div className="reserveInfo">
                   <span>{getReserve(coin.name)}</span>
-                </div>
+                </div> */}
               </li>
             ))}
           </ul>
@@ -207,12 +199,10 @@ function Change() {
                     alt={coin.name}
                   />
                 </button>
-                {priceToShow2 === coin.id && (
-                  <div className="priceInfo">{coin.current_price} USD</div>
-                )}
-                <div className="reserveInfo">
+                <div className="priceInfo">{coin.current_price} USD</div>
+                {/* <div className="reserveInfo">
                   <span>{getReserve(coin.name)}</span>
-                </div>
+                </div> */}
               </li>
             ))}
           </ul>
@@ -259,7 +249,9 @@ function Change() {
       >
         Создать заявку
       </Link>
+      <Reserver/>
       <div className="reviews-container">
+        <h2 className="reviews-title">Отзывы о нас</h2>
         <ReviewsList />
       </div>
       <ToastContainer

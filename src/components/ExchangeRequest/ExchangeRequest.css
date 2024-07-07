@@ -81,6 +81,13 @@ body {
   font-size: 1rem; /* Установлен базовый размер шрифта */
 }
 
+.notify-wrap {
+  position: sticky;
+ z-index: 10000;
+}
+
+
+
 /* Мобильные устройства и планшеты */
 @media (max-width: 768px) {
   .container {
@@ -122,6 +129,7 @@ body {
 
 /* Очень маленькие экраны */
 @media (max-width: 480px) {
+  
   .header {
     font-size: 1rem; /* Уменьшен размер шрифта заголовка */
   }
@@ -146,3 +154,5 @@ body {
     padding: 6px 12px; /* Уменьшены отступы */
   }
 }
+
+

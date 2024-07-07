@@ -1,76 +1,31 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
-import { Card, CardContent, Typography, TextField, FormControl, Button, Box, Checkbox, FormControlLabel, Select, MenuItem, InputLabel, FormHelperText } from '@mui/material';
+import { Card, CardContent, Typography, TextField, FormControl, Button, Box, Checkbox, FormControlLabel, FormHelperText, Chip } from '@mui/material';
 import { changeCoins } from '../../redux/state/coinRequestState/coinRequestState.selectors';
-import { wallet } from '../../array/coinsArray';
+import { coinNetworks, wallet } from '../../array/coinsArray';
 import ExchangeInstruction from '../ExchangeInstruction/ExchangeInstruction';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { Link } from 'react-router-dom';
 import { ROAD_ROUTE } from '../routes/routes';
 
-const coinNetworks = [
-  {
-    name: 'Bitcoin',
-    symbol: 'BTC',
-    supportedNetworks: ['Bitcoin']
-  },
-  {
-    name: 'Ethereum',
-    symbol: 'ETH',
-    supportedNetworks: ['Ethereum', 'Binance Smart Chain', 'Polygon', 'Arbitrum', 'Optimism', 'Avalanche', 'Fantom']
-  },
-  {
-    name: 'Tether',
-    symbol: 'USDT',
-    supportedNetworks: ['Ethereum', 'Tron', 'Binance Smart Chain', 'Polygon', 'Solana', 'Avalanche', 'Optimism', 'Arbitrum', 'Hedera']
-  },
-  {
-    name: 'Dogecoin',
-    symbol: 'DOGE',
-    supportedNetworks: ['Dogecoin']
-  },
-  {
-    name: 'XRP',
-    symbol: 'XRP',
-    supportedNetworks: ['XRP Ledger']
-  },
-  {
-    name: 'Solana',
-    symbol: 'SOL',
-    supportedNetworks: ['Solana']
-  },
-  {
-    name: 'Chainlink',
-    symbol: 'LINK',
-    supportedNetworks: ['Ethereum', 'Binance Smart Chain', 'Polygon', 'Arbitrum', 'Optimism', 'Avalanche', 'Fantom']
-  },
-  {
-    name: 'USDC',
-    symbol: 'USDC',
-    supportedNetworks: ['Ethereum', 'Binance Smart Chain', 'Polygon', 'Solana', 'Avalanche', 'Arbitrum', 'Optimism']
-  },
-  {
-    name: 'Binance Coin',
-    symbol: 'BNB',
-    supportedNetworks: ['Binance Smart Chain', 'Ethereum', 'Binance Chain']
-  },
-  {
-    name: 'TON',
-    symbol: 'TON',
-    supportedNetworks: ['TON']
-  },
-  {
-    name: 'Lido Staked Ether',
-    symbol: 'STETH',
-    supportedNetworks: ['Ethereum']
-  },
-];
+const MinMax = [
+  { name: "Bitcoin", min: "0.01 ", max:"14" },
+  { name: "Ethereum",  min: "0.1", max:"1670"  },
+  { name: "XRP",  min: "250", max:"3003900" },
+  { name: "Lido Staked Ether", min: "0.1", max:"1750"  },
+  { name: "BNB",  min: "0.5", max:"7601"  },
+  { name: "Tether",  min: "110", max:"985518"  },
+  { name: "Dogecoin", min: "1102", max:"16251568"  },
+  { name: "Solana", min: "0.8", max:"7145"  },
+  { name: "USDC",  min: "93", max:"118744"  },
+  { name: "Toncoin", min: "13", max:"17984" },
+]; // Вымышленный массив min max для демонстрации
 
 const ExchangeRequest = () => {
   const [amount, setAmount] = useState('');
-  const [minAmount, setMinAmount] = useState(8);
-  const [maxAmount, setMaxAmount] = useState(300);
+  const [minAmount, setMinAmount] = useState(0);
+  const [maxAmount, setMaxAmount] = useState(0);
   const [selectedFromCoin, setSelectedFromCoin] = useState(null);
   const [selectedToCoin, setSelectedToCoin] = useState(null);
   const [selectedFromNetwork, setSelectedFromNetwork] = useState('');
@@ -99,8 +54,6 @@ const ExchangeRequest = () => {
       // Выбираем первые две монеты для обмена по умолчанию
       setSelectedFromCoin(defaultCoins[0]);
       setSelectedToCoin(defaultCoins[1]);
-      setSelectedFromNetwork(getSupportedNetworks(defaultCoins[0].symbol)[0] || '');
-      setSelectedToNetwork(getSupportedNetworks(defaultCoins[1].symbol)[0] || '');
     }
   }, [defaultCoins]);
 
@@ -115,39 +68,32 @@ const ExchangeRequest = () => {
 
   useEffect(() => {
     const fetchLimits = () => {
-      // Генерация случайных значений минимума и максимума для обмена
-      const generateLimits = () => {
-        const min = Math.floor(Math.random() * (1000 - 128 + 1)) + 128; // Минимум от 128 до 1000
-        const max = Math.floor(Math.random() * (150000 - 5000 + 1)) + 5000; // Максимум от 5000 до 150000
-        return { min, max };
+      // Найти минимальные и максимальные значения для выбранной пары монет
+      const findLimits = () => {
+        const fromCoinName = selectedFromCoin?.name;
+        const toCoinName = selectedToCoin?.name;
+
+        const fromCoinLimits = MinMax.find(item => item.name === fromCoinName);
+        const toCoinLimits = MinMax.find(item => item.name === toCoinName);
+
+        if (fromCoinLimits && toCoinLimits) {
+          // Пример минимальных и максимальных значений для выбранной пары монет
+          setMinAmount(Math.max(parseFloat(fromCoinLimits.min), parseFloat(fromCoinLimits.min)));
+          setMaxAmount(Math.min(parseFloat(fromCoinLimits.max), parseFloat(fromCoinLimits.max)));
+        } else {
+          setMinAmount(0);
+          setMaxAmount(0);
+        }
       };
 
       if (selectedFromCoin && selectedToCoin) {
-        const pairKey = `${selectedFromCoin.id}_${selectedToCoin.id}`;
-        const storedLimits = JSON.parse(localStorage.getItem(`exchangeLimits_${pairKey}`));
-        const currentTime = new Date().getTime();
-
-        if (storedLimits && storedLimits.timestamp + 30 * 60 * 1000 > currentTime) {
-          // Если лимиты еще действительны, используем их
-          setMinAmount(storedLimits.minAmount);
-          setMaxAmount(storedLimits.maxAmount);
-        } else {
-          // Генерируем новые лимиты и сохраняем их в localStorage
-          const { min, max } = generateLimits();
-          setMinAmount(min);
-          setMaxAmount(Math.min(max, 150000)); // Устанавливаем максимум до 150000
-
-          localStorage.setItem(`exchangeLimits_${pairKey}`, JSON.stringify({
-            minAmount: min,
-            maxAmount: Math.min(max, 150000),
-            timestamp: currentTime,
-          }));
-        }
+        findLimits();
       }
     };
 
     fetchLimits();
 
+    // Обновляем лимиты при смене монет
     const interval = setInterval(fetchLimits, 1800000); // 1800000ms = 30 минут
     return () => clearInterval(interval);
   }, [selectedFromCoin, selectedToCoin]);
@@ -184,6 +130,34 @@ const ExchangeRequest = () => {
     }
   }, [selectedFromCoin, selectedToCoin]);
 
+  useEffect(() => {
+    // Обновляем список доступных сетей и устанавливаем сеть по умолчанию
+    const updateNetworks = () => {
+      if (selectedFromCoin) {
+        const fromNetworks = getSupportedNetworks(selectedFromCoin.symbol);
+        if (fromNetworks.length > 0) {
+          setSelectedFromNetwork(fromNetworks[0]);  // Выбираем первую сеть по умолчанию, если она одна
+        }
+      }
+    };
+
+    updateNetworks();
+  }, [selectedFromCoin]);
+
+  useEffect(() => {
+    // Обновляем список доступных сетей и устанавливаем сеть по умолчанию
+    const updateNetworks = () => {
+      if (selectedToCoin) {
+        const toNetworks = getSupportedNetworks(selectedToCoin.symbol);
+        if (toNetworks.length > 0) {
+          setSelectedToNetwork(toNetworks[0]);  // Выбираем первую сеть по умолчанию, если она одна
+        }
+      }
+    };
+
+    updateNetworks();
+  }, [selectedToCoin]);
+
   // Функция для получения поддерживаемых сетей для монеты
   const getSupportedNetworks = (symbol) => {
     const coin = coinNetworks?.find(c => c.symbol.toLowerCase() === symbol.toLowerCase());
@@ -197,7 +171,7 @@ const ExchangeRequest = () => {
     const toCoinPrice = toCoin.current_price;
 
     if (fromCoinPrice && toCoinPrice) {
-      return (amount * fromCoinPrice / toCoinPrice); // Преобразование числа в строку с 4 знаками после запятой
+      return (amount * fromCoinPrice / toCoinPrice).toFixed(4); // Преобразование числа в строку с 4 знаками после запятой
     }
     return 0;
   };
@@ -207,7 +181,7 @@ const ExchangeRequest = () => {
     if (selectedFromCoin && selectedToCoin) {
       const fromCoinPrice = selectedFromCoin.current_price;
       const toCoinPrice = selectedToCoin.current_price;
-      return (fromCoinPrice / toCoinPrice); // Курс обмена с 4 знаками после запятой
+      return (fromCoinPrice / toCoinPrice).toFixed(4); // Курс обмена с 4 знаками после запятой
     }
     return 0;
   };
@@ -224,16 +198,13 @@ const ExchangeRequest = () => {
       if (isAMLChecked) {
         setShowInstruction(true); // Показываем инструкцию по переводу
         setIsNetworkSelectionDisabled(true); // Замораживаем выбор сетей
-        window.scrollTo({
-          top: 0,
-          behavior: "smooth", // Плавная прокрутка
-        });
+        
         toast.success('Ваша заявка на обмен была успешно создана. Пожалуйста, следуйте инструкции для завершения обмена.');
       } else {
         toast.error('Пожалуйста, подтвердите условия AML перед созданием заявки.');
       }
     } else {
-      toast.error('Пожалуйста, введите корректные данные.');
+      toast.error(`Пожалуйста, введите корректное количество от ${minAmount} до ${maxAmount}.`);
     }
   };
 
@@ -258,13 +229,13 @@ const ExchangeRequest = () => {
   };
 
   // Обработчик выбора сети из
-  const handleFromNetworkChange = (event) => {
-    setSelectedFromNetwork(event.target.value);
+  const handleFromNetworkChange = (network) => {
+    setSelectedFromNetwork(network);
   };
 
   // Обработчик выбора сети в
-  const handleToNetworkChange = (event) => {
-    setSelectedToNetwork(event.target.value);
+  const handleToNetworkChange = (network) => {
+    setSelectedToNetwork(network);
   };
 
   const handleCancelRequest = () => {
@@ -314,21 +285,21 @@ const ExchangeRequest = () => {
                   {selectedFromCoin.name} ({selectedFromCoin.symbol.toUpperCase()})
                 </div>
                 <Typography variant="body2" color="textSecondary">
-                  Поддерживаемые сети: {getSupportedNetworks(selectedFromCoin.symbol).join(', ')}
+                  Поддерживаемые сети:
                 </Typography>
-                <FormControl fullWidth margin="normal" >
-                  <InputLabel>Сеть</InputLabel>
-                  <Select
-                    value={selectedFromNetwork}
-                    onChange={handleFromNetworkChange}
-                    disabled={isNetworkSelectionDisabled}  // Замораживаем выбор сетей
-                  >
-                    {getSupportedNetworks(selectedFromCoin.symbol).map(network => (
-                      <MenuItem key={network} value={network}>{network}</MenuItem>
-                    ))}
-                  </Select>
-                  <FormHelperText>Выбранная сеть: {selectedFromNetwork}</FormHelperText>
-                </FormControl>
+                <div style={{ margin: '10px 0' }}>
+                  {getSupportedNetworks(selectedFromCoin.symbol).map(network => (
+                    <Chip
+                      key={network}
+                      label={network}
+                      onClick={() => handleFromNetworkChange(network)}
+                      color={selectedFromNetwork === network ? 'primary' : 'default'}
+                      style={{ margin: '2px', cursor: 'pointer' }}
+                      disabled={isNetworkSelectionDisabled}  // Замораживаем выбор сетей
+                    />
+                  ))}
+                </div>
+                <FormHelperText>Выбранная сеть: {selectedFromNetwork}</FormHelperText>
               </div>
             ) : null}
           </FormControl>
@@ -345,22 +316,22 @@ const ExchangeRequest = () => {
                   <img src={selectedToCoin.image} alt={selectedToCoin.name} style={{ width: 30, height: 30, marginRight: 8 }} />
                   {selectedToCoin.name} ({selectedToCoin.symbol.toUpperCase()})
                 </div>
-                {/* <Typography variant="body2" color="textSecondary">
-                  Поддерживаемые сети: {getSupportedNetworks(selectedToCoin.symbol).join(', ')}
-                </Typography> */}
-                <FormControl fullWidth margin="normal">
-                  <InputLabel>Сеть</InputLabel>
-                  <Select
-                    value={selectedToNetwork}
-                    onChange={handleToNetworkChange}
-                    disabled={isNetworkSelectionDisabled}  // Замораживаем выбор сетей
-                  >
-                    {getSupportedNetworks(selectedToCoin.symbol).map(network => (
-                      <MenuItem key={network} value={network}>{network}</MenuItem>
-                    ))}
-                  </Select>
-                  <FormHelperText>Выбранная сеть:{selectedToNetwork}</FormHelperText>
-                </FormControl>
+                <Typography variant="body2" color="textSecondary">
+                  Поддерживаемые сети:
+                </Typography>
+                <div style={{ margin: '10px 0' }}>
+                  {getSupportedNetworks(selectedToCoin.symbol).map(network => (
+                    <Chip
+                      key={network}
+                      label={network}
+                      onClick={() => handleToNetworkChange(network)}
+                      color={selectedToNetwork === network ? 'primary' : 'default'}
+                      style={{ margin: '2px', cursor: 'pointer' }}
+                      disabled={isNetworkSelectionDisabled}  // Замораживаем выбор сетей
+                    />
+                  ))}
+                </div>
+                <FormHelperText>Выбранная сеть:<span className="selected-network">{selectedToNetwork}</span> </FormHelperText>
               </div>
             ) : null}
           </FormControl>
@@ -385,6 +356,7 @@ const ExchangeRequest = () => {
                   type="number"
                   value={amount}
                   onChange={handleAmountChange}
+                  placeholder={`Введите количество от ${minAmount} до ${maxAmount}`}
                   InputProps={{ inputProps: { min: minAmount, max: maxAmount } }}
                   helperText={`Введите количество от ${minAmount} до ${maxAmount}`}
                   error={amount < minAmount || amount > maxAmount}
@@ -442,7 +414,9 @@ const ExchangeRequest = () => {
           )}
         </CardContent>
       </Card>
-      <ToastContainer />
+      <div className='notify-wrap'>
+        <ToastContainer />
+      </div>
     </div>
   );
 };

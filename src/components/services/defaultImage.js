@@ -1,0 +1,1 @@
+export const defaultImg = "https://icons.iconarchive.com/icons/papirus-team/papirus-status/256/avatar-default-icon.png"
