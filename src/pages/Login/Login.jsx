@@ -57,8 +57,9 @@ const Login = () => {
 
   return (
     <>
-      {isLoading && <Loader />}
+      
       <div className={css.container}>
+      {isLoading && <Loader />}
         <h2 className={css.titleLogIn}>Вход в личный кабинет</h2>
         <Formik
           initialValues={{ email: '', password: '' }}

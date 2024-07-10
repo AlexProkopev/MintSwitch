@@ -5,11 +5,14 @@ import {
   AUTH_ROUTE,
   CABINET_ROUTE,
   CHANGE_ROUTE,
+  CONTACTS_ROUTE,
   CRYPTOTABLE_ROUTE,
   FORGOT_PASSWORD_ROUTE,
+  NOTICE_ROUTE,
   REGISTER_ROUTE,
   REQUEST_ROUTE,
   ROAD_ROUTE,
+  SITEMAP_ROUTE,
   TERMS_ROUTE,
 } from "./components/routes/routes";
 import Layout from "./components/Layout/Layout";
@@ -23,6 +26,9 @@ import AMLPolicy from "./pages/AMLPolicy/AMLPolicy";
 import Terms from "./pages/Terms/Terms";
 import ReviewsList from "./components/Reviews/Reviews";
 import ForgotPassword from "./pages/ForgotPassword/ForgotPassword";
+import Contact from "./pages/Contact/Contact";
+import Sitemap from "./pages/MapSite/Sitemap ";
+import Notice from "./pages/Notice/Notice";
 
 
 
@@ -41,7 +47,10 @@ function App() {
           <Route path={CRYPTOTABLE_ROUTE} element={<CryptoTable />} />
           <Route path={TERMS_ROUTE} element={<Terms />} />
           <Route path="reviews" element={<ReviewsList />} /> 
+          <Route path={CONTACTS_ROUTE} element={<Contact />} /> 
           <Route path={FORGOT_PASSWORD_ROUTE} element={<ForgotPassword />} /> 
+          <Route path={SITEMAP_ROUTE} element={<Sitemap />} /> 
+          <Route path={NOTICE_ROUTE} element={<Notice />} /> 
         </Routes>
        
       </div>

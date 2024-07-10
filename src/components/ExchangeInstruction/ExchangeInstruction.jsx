@@ -152,8 +152,8 @@ const ExchangeInstruction = ({
         </Button>
       </Box>
 
-      {loading && (
-        <Box className="loader-container">
+      {loading  && (
+        <Box className="loader-wrapper">
           <CircularProgress />
           <Typography variant="body2" color="textSecondary">
             Обновляем статус заявки...

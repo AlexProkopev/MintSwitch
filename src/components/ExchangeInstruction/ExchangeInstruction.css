@@ -42,6 +42,11 @@
   width: 48%;
 }
 
+.loader-wrapper {
+  margin-top: 20px;
+  text-align: center;
+}
+
 /* Адаптивные стили */
 @media (max-width: 768px) {
   .exchange-instruction-container {

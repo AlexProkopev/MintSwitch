@@ -21,6 +21,9 @@ const validationSchema = Yup.object({
   password: Yup.string()
     .min(6, 'Пароль должен содержать минимум 6 символов')
     .required('Пароль обязателен для заполнения'),
+  confirmPassword: Yup.string()
+    .oneOf([Yup.ref('password'), null], 'Пароли должны совпадать')
+    .required('Подтвердите пароль'),
 });
 
 const Registration = () => {
@@ -30,7 +33,11 @@ const Registration = () => {
 
   // Обработчик отправки формы
   const handleSubmit = (values, { setSubmitting }) => {
-    dispatch(registrationUser(values))
+    dispatch(registrationUser({
+      email: values.email,
+      password: values.password,
+      name: values.name,
+    }))
       .unwrap()
       .then(() => {
         setSubmitting(false);
@@ -47,7 +54,7 @@ const Registration = () => {
       <div className={css.container}>
         <h2 className={css.titleRegist}>Регистрация</h2>
         <Formik
-          initialValues={{ name: '', email: '', password: '' }}
+          initialValues={{ name: '', email: '', password: '', confirmPassword: '' }}
           validationSchema={validationSchema}
           onSubmit={handleSubmit}
         >
@@ -80,6 +87,15 @@ const Registration = () => {
                 />
                 <ErrorMessage name="password" component="div" className={css.error} />
               </div>
+              <div className={css.formGroup}>
+                <Field
+                  type="password"
+                  name="confirmPassword"
+                  placeholder="Подтвердите пароль"
+                  className={css.inputField}
+                />
+                <ErrorMessage name="confirmPassword" component="div" className={css.error} />
+              </div>
               <button
                 type="submit"
                 className={css.submitButton}
@@ -87,6 +103,9 @@ const Registration = () => {
               >
                 Зарегистрироваться
               </button>
+              <p className={css.infoText}>
+                Регистрируясь, вы автоматически соглашаетесь с <Link to="/terms" className={css.termsLink}>правилами пользования</Link>
+              </p>
             </Form>
           )}
         </Formik>

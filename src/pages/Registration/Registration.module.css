@@ -90,7 +90,8 @@
 }
 
 /* Поля ввода формы */
-.inputField {
+.inputField,
+.confirmPassword {
   width: 100%;
   padding: 12px;
   font-size: 16px;
@@ -101,12 +102,14 @@
 }
 
 /* Цвет плейсхолдера */
-.inputField::placeholder {
+.inputField::placeholder,
+.confirmPassword::placeholder {
   color: #999;
 }
 
 /* Цвет границы и тени при фокусе */
-.inputField:focus {
+.inputField:focus,
+.confirmPassword:focus {
   border-color: #007bff; /* Цвет границы при фокусе */
   outline: none;
   box-shadow: 0 0 5px rgba(0, 123, 255, 0.5); /* Легкая тень при фокусе */
@@ -141,6 +144,25 @@
   transform: translateY(0); /* Возвращаем кнопку в исходное положение */
 }
 
+/* Информационный текст под кнопкой */
+.infoText {
+  margin-top: 10px;
+  font-size: 12px;
+  color: #aaa; /* Цвет текста */
+  text-align: center; /* Выравнивание текста по центру */
+}
+
+.infoText a {
+  color: #007bff; /* Цвет ссылки */
+  text-decoration: none;
+  font-weight: bold;
+}
+
+/* Подчеркивание ссылки при наведении */
+.infoText a:hover {
+  text-decoration: underline;
+}
+
 /* Текст под формой */
 .formText {
   margin-top: 20px;
@@ -158,56 +180,4 @@
 /* Подчеркивание ссылки при наведении */
 .formText a:hover {
   text-decoration: underline;
-}
-
-/* Адаптивные стили */
-
-@media (min-width: 768px) {
-  .container {
-    padding: 40px;
-    height: auto;
-  }
-
-  .titleRegist {
-    font-size: 28px;
-  }
-
-  .inputField {
-    padding: 14px;
-    font-size: 18px;
-  }
-
-  .submitButton {
-    padding: 14px;
-    font-size: 18px;
-  }
-
-  .formText {
-    font-size: 16px;
-  }
-}
-
-@media (min-width: 1024px) {
-  .container {
-    max-width: 500px;
-    margin: 0 auto;
-  }
-
-  .titleRegist {
-    font-size: 32px;
-  }
-
-  .inputField {
-    padding: 16px;
-    font-size: 20px;
-  }
-
-  .submitButton {
-    padding: 16px;
-    font-size: 20px;
-  }
-
-  .formText {
-    font-size: 18px;
-  }
 }

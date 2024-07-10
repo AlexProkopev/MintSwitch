@@ -4,7 +4,6 @@ import "./Change.css";
 import { Link, useNavigate } from "react-router-dom";
 import { REQUEST_ROUTE } from "../../components/routes/routes";
 import ChangeIcon from "./ChangeIcon/ChangeIcon";
-
 import ReviewsList from "../../components/Reviews/Reviews";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -17,14 +16,13 @@ function Change() {
   const [selectedCoin2, setSelectedCoin2] = useState(null);
   const [exchangeRate, setExchangeRate] = useState(null);
   const [amountCoin2, setAmountCoin2] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [exchangeRatesCache, setExchangeRatesCache] = useState({});
   const navigate = useNavigate();
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        // Делаем один запрос к API для получения данных о монетах и их курсах
         const response = await axios.get("https://api.coingecko.com/api/v3/coins/markets", {
           params: {
             vs_currency: "usd",
@@ -39,7 +37,6 @@ function Change() {
           setCoins(response.data);
           localStorage.setItem("coins", JSON.stringify(response.data));
 
-          // Обновляем курс обмена
           const ids = response.data.map(coin => coin.id).join(',');
           const priceResponse = await axios.get("https://api.coingecko.com/api/v3/simple/price", {
             params: {
@@ -75,47 +72,15 @@ function Change() {
     );
 
     if (selectedCoin1 && selectedCoin2) {
-      
       if (exchangeRatesCache[selectedCoin1.id] && exchangeRatesCache[selectedCoin2.id]) {
         const rate1to2 = exchangeRatesCache[selectedCoin2.id] / exchangeRatesCache[selectedCoin1.id];
-        const rate = rate1to2 ? rate1to2 : "N/A";
         const amount = rate1to2 ? (1 / rate1to2) : "N/A";
 
-        setExchangeRate(rate);
+        setExchangeRate(rate1to2);
         setAmountCoin2(amount);
-      } else {
-        fetchExchangeRate(selectedCoin1.id, selectedCoin2.id);
       }
     }
   }, [selectedCoin1, selectedCoin2, exchangeRatesCache]);
-
-  const fetchExchangeRate = (coinId1, coinId2) => {
-    axios
-      .get("https://api.coingecko.com/api/v3/simple/price", {
-        params: {
-          ids: `${coinId1},${coinId2}`,
-          vs_currencies: "usd",
-        },
-      })
-      .then((response) => {
-        const rate1to2 =
-          response.data[coinId2]?.usd / response.data[coinId1]?.usd;
-        const rate = rate1to2 ? rate1to2 : "N/A";
-        const amount = rate1to2 ? (1 / rate1to2) : "N/A";
-
-        const cacheKey = `${coinId1}_${coinId2}`;
-        setExchangeRatesCache((prevCache) => ({
-          ...prevCache,
-          [cacheKey]: { rate, amount },
-        }));
-
-        setExchangeRate(rate);
-        setAmountCoin2(amount);
-      })
-      .catch((error) => {
-        setExchangeRate("Error");
-      });
-  };
 
   const handleCoinClick = (coin, listNumber) => {
     if (listNumber === 1) {
@@ -133,17 +98,23 @@ function Change() {
     }
   };
 
-
-
   const handleCreateRequest = (event) => {
     event.preventDefault();
+
+    if (!selectedCoin1 || !selectedCoin2) {
+      toast.error("Выберите обе монеты для обмена.");
+      return;
+    }
+
     window.scrollTo({
       top: 0,
       behavior: "smooth",
     });
+
     toast.success(
       "Заявка создана! Пожалуйста, следуйте далее для завершения процесса обмена."
     );
+
     setLoading(true);
 
     setTimeout(() => {
@@ -174,9 +145,6 @@ function Change() {
                   />
                 </button>
                 <div className="priceInfo">{coin.current_price.toFixed(3)} USD</div>
-                {/* <div className="reserveInfo">
-                  <span>{getReserve(coin.name)}</span>
-                </div> */}
               </li>
             ))}
           </ul>
@@ -199,10 +167,7 @@ function Change() {
                     alt={coin.name}
                   />
                 </button>
-                <div className="priceInfo">{coin.current_price} USD</div>
-                {/* <div className="reserveInfo">
-                  <span>{getReserve(coin.name)}</span>
-                </div> */}
+                <div className="priceInfo">{coin.current_price.toFixed(3)} USD</div>
               </li>
             ))}
           </ul>
@@ -242,14 +207,14 @@ function Change() {
         )}
       </div>
 
-      <Link
-        to={REQUEST_ROUTE}
+      <button
         className="create-btn"
         onClick={handleCreateRequest}
+        disabled={!selectedCoin1 || !selectedCoin2}
       >
         Создать заявку
-      </Link>
-      <Reserver/>
+      </button>
+      <Reserver />
       <div className="reviews-container">
         <h2 className="reviews-title">Отзывы о нас</h2>
         <ReviewsList />

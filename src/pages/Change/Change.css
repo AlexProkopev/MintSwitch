@@ -192,6 +192,7 @@
 
 .create-btn:hover {
   background-color: #0056b3;
+  cursor: pointer;
 }
 
 /* Стили для формы ввода количества */

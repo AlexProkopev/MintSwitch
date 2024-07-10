@@ -4,11 +4,9 @@ import styled from 'styled-components';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { initialReviews } from './array';
-import InfiniteScroll from 'react-infinite-scroll-component';
 import { useSelector } from 'react-redux';
 import { selectIsAutorization } from '../../redux/state/autentification/authentification.selectors';
 import Loader from '../Loader/Loader';
-
 
 // Стили для компонента
 const ReviewCard = styled(Card)`
@@ -205,29 +203,23 @@ const ReviewsList = () => {
           </Button>
         </form>
       </FormContainer>
-      <InfiniteScroll
-        dataLength={items.length} // Количество отзывов, которые уже загружены
-        next={fetchMoreData} // Функция для загрузки дополнительных данных
-        hasMore={hasMore} // Определяет, есть ли еще данные для загрузки
-        loader={<Loader/>} // Компонент или текст, который отображается во время загрузки
-      >
-        <h2>
-          Последние 100 отзывов
-        </h2>
-        {items.map((review, index) => (
-          <ReviewCard key={index}>
-            <CardContent>
-              <Typography variant="h6">{review.name}</Typography>
-              <ReviewDate>{review.date}</ReviewDate>
-              <Typography variant="body1">{review.review}</Typography>
-            </CardContent>
-          </ReviewCard>
-        ))}
-      </InfiniteScroll>
-      {hasMore && (
+      {items.map((review, index) => (
+        <ReviewCard key={index}>
+          <CardContent>
+            <Typography variant="h6">{review.name}</Typography>
+            <ReviewDate>{review.date}</ReviewDate>
+            <Typography variant="body1">{review.review}</Typography>
+          </CardContent>
+        </ReviewCard>
+      ))}
+      {hasMore ? (
         <LoadMoreButton onClick={fetchMoreData}>
           Загрузить больше отзывов
         </LoadMoreButton>
+      ) : (
+        <Typography variant="h6" color="white" align="center" sx={{ marginTop: 2 }}>
+          Загружены последние 100 отзывов
+        </Typography>
       )}
       <ToastContainer />
     </ReviewListContainer>
