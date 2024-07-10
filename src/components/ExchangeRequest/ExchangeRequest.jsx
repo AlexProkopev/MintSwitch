@@ -278,9 +278,7 @@ setLoading(false)
         sx={{ marginBottom: 2, borderRadius: 2, boxShadow: 3 }}
       >
         <CardContent>
-          <Typography variant="h5" component="div" gutterBottom>
-            Запрос на обмен
-          </Typography>
+        
           <Typography variant="h5" component="div" gutterBottom>
             Заявка номер: {createNubmer()}
           </Typography>
