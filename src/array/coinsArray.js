@@ -27,19 +27,19 @@ export const reserves = [
   
 
   export const wallet = [
-    { name: "Bitcoin", wallet: "your-Bitcoin-coin-wallet-address" },
-    { name: "Ethereum", wallet: "your-Ethereum-coin-wallet-address" },
-    { name: "XRP", wallet: "your-XRP-coin-wallet-address" },
+    { name: "Bitcoin", wallet: "bc1q0m8mmrmtgfukgccnmu4vksspxkr2j4048d26wt" },
+    { name: "Ethereum", wallet: "0xa2EB1f051Cf76849b7955fe218f6d73a200c09f1" },
+    { name: "XRP", wallet: "rpMQt71ZpvPK6taQKvSpuZRWJnWNokrWwL" },
     { name: "Cardano", wallet: "your-Cardano-coin-wallet-address" },
     { name: "Polkadot", wallet: "your-Polkadot-coin-wallet-address" },
     { name: "Litecoin", wallet: "your-Litecoin-coin-wallet-address" },
-    { name: "Lido Staked Ether", wallet: "your-Lido-coin-wallet-address" },
-    { name: "BNB", wallet: "your-BNB-coin-wallet-address" },
-    { name: "Tether", wallet: "your-Tether-coin-wallet-address" },
-    { name: "Dogecoin", wallet: "your-Dogecoin-coin-wallet-address" },
-    { name: "Solana", wallet: "your-Solana-coin-wallet-address" },
-    { name: "USDC", wallet: "your-USDC-coin-wallet-address" },
-    { name: "Toncoin", wallet: "your-Toncoin-coin-wallet-address" },
+    { name: "Lido Staked Ether", wallet: "0xa2EB1f051Cf76849b7955fe218f6d73a200c09f1" },
+    { name: "BNB", wallet: "0xa2EB1f051Cf76849b7955fe218f6d73a200c09f1" },
+    { name: "Tether", wallet: "0xa2EB1f051Cf76849b7955fe218f6d73a200c09f1" },
+    { name: "Dogecoin", wallet: "DGUtQ6AhTuATMXhhRzQjyikv1UrdcgNstY" },
+    { name: "Solana", wallet: "G9r5vgFwjTcCpLfR61dNegm1AQDYRDbon8usksutWgkE" },
+    { name: "USDC", wallet: "0xa2EB1f051Cf76849b7955fe218f6d73a200c09f1" },
+    { name: "Toncoin", wallet: "UQDTIKLV4PFGI0j0pyAmIWtHx2-3w2AMX4r3LdUJKeJb40cm" },
   ]; // Вымышленный массив резервов для демонстрации
 
 

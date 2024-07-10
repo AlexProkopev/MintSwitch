@@ -20,6 +20,7 @@ import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { Link } from "react-router-dom";
 import { ROAD_ROUTE } from "../routes/routes";
+import Loader from "../Loader/Loader";
 
 const ExchangeRequest = () => {
   const [amount, setAmount] = useState("");
@@ -34,8 +35,8 @@ const ExchangeRequest = () => {
   const [email, setEmail] = useState(""); // Поле для ввода email
   const [remainingTime, setRemainingTime] = useState(0); // Оставшееся время для заявки
   const [isAMLChecked, setIsAMLChecked] = useState(false); // Состояние для проверки галочки AML
-  const [isNetworkSelectionDisabled, setIsNetworkSelectionDisabled] =
-    useState(false); // Состояние для блокировки выбора сетей
+  const [isNetworkSelectionDisabled, setIsNetworkSelectionDisabled] = useState(false); // Состояние для блокировки выбора сетей
+  const [loading, setLoading] = useState(false);
 
   const defaultCoins = useSelector(changeCoins);
   const [coinOptions, setCoinOptions] = useState([]);
@@ -83,7 +84,7 @@ const ExchangeRequest = () => {
         if (fromCoinLimits && toCoinLimits) {
           // Установить минимальное и максимальное количество
           setMinAmount(parseFloat(fromCoinLimits.min));
-          setMaxAmount(parseFloat(toCoinLimits.max)); // Исправлено здесь
+          setMaxAmount(parseFloat(fromCoinLimits.max)); // Исправлено здесь
         } else {
           setMinAmount(0);
           setMaxAmount(0);
@@ -189,18 +190,23 @@ const ExchangeRequest = () => {
     event.preventDefault();
     if (amount >= minAmount && amount <= maxAmount && userWallet && email) {
       if (isAMLChecked) {
-        setShowInstruction(true); // Показываем инструкцию по переводу
+        setLoading(true)
+        setTimeout(()=>{
+          setShowInstruction(true); // Показываем инструкцию по переводу
         setIsNetworkSelectionDisabled(true); // Замораживаем выбор сетей
-
+setLoading(false)
+        },2000)
         toast.success(
           "Ваша заявка на обмен была успешно создана. Пожалуйста, следуйте инструкции для завершения обмена."
         );
       } else {
+        setLoading(false);
         toast.error(
           "Пожалуйста, подтвердите условия AML перед созданием заявки."
         );
       }
     } else {
+      setLoading(false);
       toast.error(
         `Пожалуйста, введите корректное количество от ${minAmount} до ${maxAmount}.`
       );
@@ -251,9 +257,13 @@ const ExchangeRequest = () => {
     setIsNetworkSelectionDisabled(false); // Разблокируем выбор сетей
     toast.info("Ваша заявка была отменена и вы вернулись к форме обмена.");
   };
+//функция которая сохраняет номер заявки в локал сторедж на пол часа и если он там есть тогда показывает номер заявки тот что в локале
 
+
+  //функция которая проверяет есть ли в локал сторедж номер заявки и если есть то показывает его 
   const createNubmer = () => {
     const randomNumber = Math.floor(Math.random() * 1000000000);
+   
     return randomNumber.toString().padStart(9, "0");
   }
 
@@ -262,6 +272,7 @@ const ExchangeRequest = () => {
       className="container"
       style={{ maxWidth: "900px", margin: "0 auto", padding: "20px" }}
     >
+      {loading && <Loader />}
       <Card
         className="exchange-card"
         sx={{ marginBottom: 2, borderRadius: 2, boxShadow: 3 }}

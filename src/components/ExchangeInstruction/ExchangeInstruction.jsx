@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Typography, Box, Button, Tooltip, CircularProgress } from '@mui/material';
 import './ExchangeInstruction.css';
-import { toast } from 'react-toastify';
+
 
 const ExchangeInstruction = ({ 
   amount, 
@@ -49,10 +49,10 @@ const ExchangeInstruction = ({
   const handleCopy = (text) => {
     navigator.clipboard.writeText(text).then(
       () => {
-       toast.success('Адрес скопирован в буфер обмена');
+       alert('Адрес скопирован в буфер обмена');
       },
       (err) => {
-        toast.error('Ошибка при копировании адреса: ' + err);
+        alert('Ошибка при копировании адреса: ' + err);
       }
     );
   };
