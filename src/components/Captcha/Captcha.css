@@ -1,0 +1,32 @@
+/* Captcha.css */
+
+/* Общие стили для контейнера */
+.captcha-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px;
+  margin: 0 auto;
+}
+
+/* Стили для hCaptcha контейнера */
+.captcha-container iframe {
+  width: 100% !important; /* Полная ширина для адаптивности */
+  max-width: 304px; /* Максимальная ширина для обеспечения адекватного размера на мобильных устройствах */
+  height: 78px; /* Высота, соответствующая стандартному размеру hCaptcha */
+}
+
+/* Адаптивные стили для мобильных устройств */
+@media (max-width: 768px) {
+  .captcha-container iframe {
+    max-width: 100% !important;
+    height: auto; /* Высота адаптируется к ширине */
+  }
+}
+
+/* Адаптивные стили для планшетов и мобильных устройств в портретной ориентации */
+@media (max-width: 480px) {
+  .captcha-container {
+    padding: 5px;
+  }
+}

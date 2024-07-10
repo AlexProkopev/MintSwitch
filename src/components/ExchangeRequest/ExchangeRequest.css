@@ -1,11 +1,4 @@
-/* Основные стили */
-body {
-  background-color: #1a1a1a;
-  font-family: 'Roboto', sans-serif;
-  color: #fff;
-  margin: 0;
-  padding: 0;
-}
+
 
 .container {
   display: flex;

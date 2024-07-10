@@ -1,20 +1,21 @@
 import React from 'react';
-import ReCAPTCHA from 'react-google-recaptcha';
+import HCaptcha from '@hcaptcha/react-hcaptcha';
+import './Captcha.css'; // Импортируем файл с CSS-стилями
 
 const Captcha = ({ onCaptchaChange }) => {
-  const handleCaptchaChange = (value) => {
-    if (value) {
-      onCaptchaChange(true, value);
+  const handleCaptchaChange = (token) => {
+    if (token) {
+      onCaptchaChange(true, token);
     } else {
       onCaptchaChange(false, null);
     }
   };
 
   return (
-    <div>
-      <ReCAPTCHA
-        sitekey="6LeCzwwqAAAAAGW2dB21c0RSeRq-maEdBavA74oN" // Ваш site key
-        onChange={handleCaptchaChange}
+    <div className="captcha-container">
+      <HCaptcha
+        sitekey="32a403ee-7318-47ca-80fe-2baedb222d06" // Ваш site key
+        onVerify={handleCaptchaChange}
       />
     </div>
   );

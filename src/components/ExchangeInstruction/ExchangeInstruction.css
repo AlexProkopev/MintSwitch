@@ -1,37 +1,89 @@
+/* ExchangeInstruction.css */
+
 .exchange-instruction-container {
-    padding: 24px;
-    background-color: #f5f5f5;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    margin: 16px;
-    max-width: 600px;
-    margin: 0 auto;
+  padding: 24px;
+  background-color: #f5f5f5;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  margin: 16px;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+/* Таблица */
+.table {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 12px;
+  margin-top: 16px;
+}
+
+/* Строки таблицы */
+.table-row {
+  display: contents;
+}
+
+/* Ячейки таблицы */
+.table-cell {
+  background: #ffffff;
+  padding: 12px;
+  border-radius: 4px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Стили для кнопок */
+.button-container {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 16px;
+}
+
+.cancel-button, .paid-button {
+  width: 48%;
+}
+
+/* Адаптивные стили */
+@media (max-width: 768px) {
+  .exchange-instruction-container {
+    padding: 16px;
   }
-  
+
   .button-container {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 16px;
+    flex-direction: column;
+    gap: 10px;
   }
-  
+
   .cancel-button, .paid-button {
-    width: 48%;
+    width: 100%;
+    margin-bottom: 8px;
   }
-  
-  /* Адаптивные стили */
-  @media (max-width: 768px) {
-    .exchange-instruction-container {
-      padding: 16px;
-    }
-  
-    .button-container {
-      flex-direction: column;
-      gap: 10px;
-    }
-  
-    .cancel-button, .paid-button {
-      width: 100%;
-      margin-bottom: 8px;
-    }
-  }
-  
+}
+
+/* Стили для статуса заявки */
+.status {
+  margin-top: 10px;
+  font-size: 0.875rem;
+  font-weight: bold;
+}
+
+/* Стиль для статуса оплачено */
+.status-paid {
+  color: #4caf50; /* Зеленый цвет для оплаченного статуса */
+}
+
+/* Стиль для статуса ожидания оплаты */
+.status-pending {
+  color: #ff9800; /* Оранжевый цвет для статуса ожидания оплаты */
+}
+
+/* Стиль для статуса оплаты в процессе */
+.status-processing {
+  color: #2196f3; /* Синий цвет для статуса оплаты в процессе */
+}
+
+/* Стили для времени создания заявки и времени изменения статуса */
+.time-info {
+  margin-top: 10px;
+  font-size: 0.875rem;
+  color: #555;
+}

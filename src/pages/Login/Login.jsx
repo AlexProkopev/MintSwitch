@@ -3,15 +3,16 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import { Formik, Form, Field } from 'formik';
 import * as Yup from 'yup';
-import Captcha from '../../components/Captcha/Captcha';
+import Captcha from '../../components/Captcha/Captcha';  // Import Captcha component
 
 import css from './Login.module.css';
 import { selectIsLoading } from '../../redux/state/autentification/authentification.selectors';
 import Loader from '../../components/Loader/Loader';
 import { fetchUser } from '../../redux/state/autentification/services';
-import { CABINET_ROUTE, REGISTER_ROUTE, FORGOT_PASSWORD_ROUTE } from '../../components/routes/routes';
+import { CABINET_ROUTE, REGISTER_ROUTE, FORGOT_PASSWORD_ROUTE } from '../../components/routes/routes'; // Add FORGOT_PASSWORD_ROUTE
 import { Notify } from 'notiflix';
 
+// Validation schema using Yup
 const validationSchema = Yup.object({
   email: Yup.string()
     .email('Введите корректный email')
@@ -35,9 +36,9 @@ const Login = () => {
   };
 
   const handleSubmit = (values, { setSubmitting }) => {
+    console.log(values);
     if (!isCaptchaCorrect) {
       setSubmitting(false);
-      Notify.failure('Капча не пройдена');
       return;
     }
 
@@ -78,7 +79,7 @@ const Login = () => {
                 placeholder="Пароль"
                 className={css.inputLogIn}
               />
-              <Captcha onCaptchaChange={handleCaptchaChange} />
+              <Captcha onCaptchaChange={handleCaptchaChange} />  {/* Add Captcha component */}
               <button 
                 type="submit" 
                 className={css.btnLogIN}
