@@ -35,6 +35,7 @@
   
   .contact-form input,
   .contact-form textarea {
+    
     width: 100%;
     padding: 10px;
     font-size: 1rem;
@@ -43,6 +44,11 @@
     box-sizing: border-box;
     background-color: #fff;
     transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    
+  }
+
+  textarea {
+    resize: none;
   }
   
   .contact-form input:focus,
