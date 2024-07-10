@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "./Change.css";
-import { Link, useNavigate } from "react-router-dom";
+import {useNavigate } from "react-router-dom";
 import { REQUEST_ROUTE } from "../../components/routes/routes";
 import ChangeIcon from "./ChangeIcon/ChangeIcon";
 import ReviewsList from "../../components/Reviews/Reviews";

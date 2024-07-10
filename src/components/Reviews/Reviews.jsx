@@ -6,7 +6,6 @@ import 'react-toastify/dist/ReactToastify.css';
 import { initialReviews } from './array';
 import { useSelector } from 'react-redux';
 import { selectIsAutorization } from '../../redux/state/autentification/authentification.selectors';
-import Loader from '../Loader/Loader';
 
 // Стили для компонента
 const ReviewCard = styled(Card)`
