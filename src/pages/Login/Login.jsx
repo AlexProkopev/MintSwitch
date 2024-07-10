@@ -3,16 +3,15 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import { Formik, Form, Field } from 'formik';
 import * as Yup from 'yup';
-import Captcha from '../../components/Captcha/Captcha';  // Импортируем новый компонент капчи
+import Captcha from '../../components/Captcha/Captcha';
 
 import css from './Login.module.css';
 import { selectIsLoading } from '../../redux/state/autentification/authentification.selectors';
 import Loader from '../../components/Loader/Loader';
 import { fetchUser } from '../../redux/state/autentification/services';
-import { CABINET_ROUTE, REGISTER_ROUTE } from '../../components/routes/routes';
+import { CABINET_ROUTE, REGISTER_ROUTE, FORGOT_PASSWORD_ROUTE } from '../../components/routes/routes';
 import { Notify } from 'notiflix';
 
-// Валидация формы с помощью Yup
 const validationSchema = Yup.object({
   email: Yup.string()
     .email('Введите корректный email')
@@ -27,28 +26,27 @@ const Login = () => {
   const navigate = useNavigate();
   const isLoading = useSelector(selectIsLoading);
 
-  const [captchaAnswer, setCaptchaAnswer] = useState(null);  // Хранение правильного ответа капчи
+  const [captchaAnswer, setCaptchaAnswer] = useState(null);
   const [isCaptchaCorrect, setIsCaptchaCorrect] = useState(false);
 
   const handleCaptchaChange = (isCorrect, answer) => {
-    setCaptchaAnswer(answer);  // Сохраняем правильный ответ капчи
-    setIsCaptchaCorrect(isCorrect);  // Обновление состояния правильности капчи
+    setCaptchaAnswer(answer);
+    setIsCaptchaCorrect(isCorrect);
   };
 
   const handleSubmit = (values, { setSubmitting }) => {
-    console.log(values);
     if (!isCaptchaCorrect) {
-    
       setSubmitting(false);
+      Notify.failure('Капча не пройдена');
       return;
     }
 
-    dispatch(fetchUser({ ...values, captchaToken: captchaAnswer }))  // Передаем ответ капчи на сервер
+    dispatch(fetchUser({ ...values, captchaToken: captchaAnswer }))
       .unwrap()
       .then(() => {
         setSubmitting(false);
         Notify.success('Вы успешно авторизовались');
-        navigate(CABINET_ROUTE);  // Перенаправление на страницу кабинета
+        navigate(CABINET_ROUTE);
       })
       .catch(() => {
         setSubmitting(false);
@@ -80,7 +78,7 @@ const Login = () => {
                 placeholder="Пароль"
                 className={css.inputLogIn}
               />
-              <Captcha onCaptchaChange={handleCaptchaChange} />  {/* Добавляем компонент капчи */}
+              <Captcha onCaptchaChange={handleCaptchaChange} />
               <button 
                 type="submit" 
                 className={css.btnLogIN}
@@ -93,6 +91,9 @@ const Login = () => {
         </Formik>
         <p className={css.profileText}>
           Нет аккаунта? <Link to={REGISTER_ROUTE}>Зарегистрируйтесь</Link>
+        </p>
+        <p className={css.forgotPasswordText}>
+          <Link to={FORGOT_PASSWORD_ROUTE}>Забыли пароль?</Link>
         </p>
       </div>
     </>

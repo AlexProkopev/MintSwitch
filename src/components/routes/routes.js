@@ -8,3 +8,4 @@ export const CABINET_ROUTE = "/profile";
 export const REQUEST_ROUTE = "/create-request";
 export const CRYPTOTABLE_ROUTE = "/crypto-table";
 export const TERMS_ROUTE = "/terms";
+export const FORGOT_PASSWORD_ROUTE = "/fgpass";
