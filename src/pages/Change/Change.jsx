@@ -9,6 +9,8 @@ import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Loader from "../../components/Loader/Loader";
 import Reserver from "../../components/Reserves/Reserver";
+import CryptoNews from "../News/News";
+
 
 function Change() {
   const [coins, setCoins] = useState([]);
@@ -18,6 +20,8 @@ function Change() {
   const [amountCoin2, setAmountCoin2] = useState(null);
   const [loading, setLoading] = useState(false);
   const [exchangeRatesCache, setExchangeRatesCache] = useState({});
+  const [cryptoNews, setCryptoNews] = useState(null);
+  const [loadingNews, setLoadingNews] = useState(true);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -63,6 +67,31 @@ function Change() {
     };
 
     fetchData();
+  }, []);
+
+  const NEWS_API_KEY = '78a36b2709ef4c2d89bd4a32a3e8329e';
+  const NEWS_API_URL = 'https://newsapi.org/v2/everything';
+
+  useEffect(() => {
+    const fetchNews = async () => {
+      try {
+        const response = await axios.get(NEWS_API_URL, {
+          params: {
+            q: 'cryptocurrency',  // Поиск по ключевому слову 'cryptocurrency'
+            apiKey: NEWS_API_KEY,
+            pageSize: 10,           // Количество новостей
+            language: 'en',        // Язык новостей
+          },
+        });
+        setCryptoNews(response.data.articles); // Записываем новости в состояние
+      } catch (error) {
+        console.error("Error fetching news:", error);
+      } finally {
+        setLoadingNews(false); // Завершаем загрузку
+      }
+    };
+
+    fetchNews();
   }, []);
 
   useEffect(() => {
@@ -207,6 +236,11 @@ function Change() {
       >
         Создать заявку
       </button>
+
+      <div className="container">
+      <CryptoNews loadingNews={loadingNews} cryptoNews={cryptoNews}/>
+    </div>
+
       <Reserver />
       <div className="reviews-container">
         <h2 className="reviews-title">Отзывы о нас</h2>
