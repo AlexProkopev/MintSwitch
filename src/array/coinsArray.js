@@ -13,15 +13,15 @@ export const reserves = [
   
 
   export const MinMax = [
-    { name: "Bitcoin", min: "0.01 ", max:"14" },
-    { name: "Ethereum",  min: "0.1", max:"1670"  },
-    { name: "XRP",  min: "250", max:"3003900" },
+    { name: "Bitcoin", min: "0.0008 ", max:"0.018945" },
+    { name: "Ethereum",  min: "0.05", max:"1.9842"  },
+    { name: "XRP",  min: "68", max:"15016.92" },
     { name: "Lido Staked Ether", min: "0.1", max:"1750"  },
-    { name: "BNB",  min: "0.5", max:"7601"  },
-    { name: "Tether",  min: "110", max:"985518"  },
-    { name: "Dogecoin", min: "1102", max:"16251568"  },
-    { name: "Solana", min: "0.8", max:"7145"  },
-    { name: "USDC",  min: "93", max:"118744"  },
+    { name: "BNB",  min: "0.15", max:"15.22"  },
+    { name: "Tether",  min: "88", max:"20506"  },
+    { name: "Dogecoin", min: "247", max:"37518.17"  },
+    { name: "Solana", min: "0.4565", max:"38.4515"  },
+    { name: "USDC",  min: "93", max:"19436"  },
     { name: "Toncoin", min: "13", max:"17984" },
   ]; // Вымышленный массив резервов для демонстрации
   
@@ -45,60 +45,91 @@ export const reserves = [
 
   
 
-export const coinNetworks = [
-  {
-    name: 'Bitcoin',
-    symbol: 'BTC',
-    supportedNetworks: ['Bitcoin']
-  },
-  {
-    name: 'Ethereum',
-    symbol: 'ETH',
-    supportedNetworks: ['Ethereum', 'Binance Smart Chain', 'Polygon', 'Arbitrum', 'Optimism', 'Avalanche', 'Fantom']
-  },
-  {
-    name: 'Tether',
-    symbol: 'USDT',
-    supportedNetworks: ['Ethereum', 'Tron', 'Binance Smart Chain', 'Polygon', 'Solana', 'Avalanche', 'Optimism', 'Arbitrum', 'Hedera']
-  },
-  {
-    name: 'Dogecoin',
-    symbol: 'DOGE',
-    supportedNetworks: ['Dogecoin']
-  },
-  {
-    name: 'XRP',
-    symbol: 'XRP',
-    supportedNetworks: ['XRP Ledger']
-  },
-  {
-    name: 'Solana',
-    symbol: 'SOL',
-    supportedNetworks: ['Solana']
-  },
-  {
-    name: 'Chainlink',
-    symbol: 'LINK',
-    supportedNetworks: ['Ethereum', 'Binance Smart Chain', 'Polygon', 'Arbitrum', 'Optimism', 'Avalanche', 'Fantom']
-  },
-  {
-    name: 'USDC',
-    symbol: 'USDC',
-    supportedNetworks: ['Ethereum', 'Binance Smart Chain', 'Polygon', 'Solana', 'Avalanche', 'Arbitrum', 'Optimism']
-  },
-  {
-    name: 'Binance Coin',
-    symbol: 'BNB',
-    supportedNetworks: ['Binance Smart Chain', 'Ethereum', 'Binance Chain']
-  },
-  {
-    name: 'TON',
-    symbol: 'TON',
-    supportedNetworks: ['TON']
-  },
-  {
-    name: 'Lido Staked Ether',
-    symbol: 'STETH',
-    supportedNetworks: ['Ethereum']
-  },
-];
+  export const coinNetworks = [
+    {
+      name: "Bitcoin",
+      symbol: "BTC",
+      supportedNetworks: ["BTC (Bitcoin Network)"],
+    },
+    {
+      name: "Ethereum",
+      symbol: "ETH",
+      supportedNetworks: ["ERC20 (Ethereum)"],
+    },
+    {
+      name: "Tether",
+      symbol: "USDT",
+      supportedNetworks: [
+        "ERC20 (Ethereum)",
+        "TRC20 (Tron)",
+        "BEP20 (Binance Smart Chain)",
+        "Polygon (MATIC)",
+        "Solana (SOL)",
+        "Avalanche (AVAX)",
+        "Optimism (OP)",
+        "Arbitrum (ARB)",
+        "Hedera (HBAR)",
+      ],
+    },
+    {
+      name: "Dogecoin",
+      symbol: "DOGE",
+      supportedNetworks: ["DOGE (Dogecoin Network)"],
+    },
+    {
+      name: "XRP",
+      symbol: "XRP",
+      supportedNetworks: ["XRP Ledger"],
+    },
+    {
+      name: "Solana",
+      symbol: "SOL",
+      supportedNetworks: ["Solana (SOL)"],
+    },
+    {
+      name: "Chainlink",
+      symbol: "LINK",
+      supportedNetworks: [
+        "ERC20 (Ethereum)",
+        "BEP20 (Binance Smart Chain)",
+        "Polygon (MATIC)",
+        "Arbitrum (ARB)",
+        "Optimism (OP)",
+        "Avalanche (AVAX)",
+        "Fantom (FTM)",
+      ],
+    },
+    {
+      name: "USDC",
+      symbol: "USDC",
+      supportedNetworks: [
+        "ERC20 (Ethereum)",
+        "BEP20 (Binance Smart Chain)",
+        "Polygon (MATIC)",
+        "Solana (SOL)",
+        "Avalanche (AVAX)",
+        "Arbitrum (ARB)",
+        "Optimism (OP)",
+      ],
+    },
+    {
+      name: "Binance Coin",
+      symbol: "BNB",
+      supportedNetworks: [
+        "BEP20 (Binance Smart Chain)",
+        "BEP2 (Binance Chain)",
+        "ERC20 (Ethereum)",
+      ],
+    },
+    {
+      name: "TON",
+      symbol: "TON",
+      supportedNetworks: ["TON (The Open Network)"],
+    },
+    {
+      name: "Lido Staked Ether",
+      symbol: "STETH",
+      supportedNetworks: ["ERC20 (Ethereum)"],
+    },
+  ];
+  

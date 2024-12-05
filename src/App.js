@@ -7,6 +7,7 @@ import {
   CHANGE_ROUTE,
   CONTACTS_ROUTE,
   CRYPTOTABLE_ROUTE,
+  EXINSTRUCTION,
   FORGOT_PASSWORD_ROUTE,
   NOTICE_ROUTE,
   REGISTER_ROUTE,
@@ -29,6 +30,7 @@ import ForgotPassword from "./pages/ForgotPassword/ForgotPassword";
 import Contact from "./pages/Contact/Contact";
 import Sitemap from "./pages/MapSite/Sitemap ";
 import Notice from "./pages/Notice/Notice";
+import ExchangeInstruction from "./components/ExchangeInstruction/ExchangeInstruction";
 
 
 
@@ -45,6 +47,7 @@ function App() {
           <Route path={REGISTER_ROUTE} element={<Registration />} />
           <Route path={AUTH_ROUTE} element={<Login />} />
           <Route path={CRYPTOTABLE_ROUTE} element={<CryptoTable />} />
+          <Route path={EXINSTRUCTION} element={<ExchangeInstruction />} />
           <Route path={TERMS_ROUTE} element={<Terms />} />
           <Route path="reviews" element={<ReviewsList />} /> 
           <Route path={CONTACTS_ROUTE} element={<Contact />} /> 

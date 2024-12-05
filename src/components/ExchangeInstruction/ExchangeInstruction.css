@@ -6,8 +6,11 @@
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   margin: 16px;
-  max-width: 600px;
+  max-width: 100%; /* Контейнер будет иметь максимальную ширину 100% */
+  width: 100%; /* Контейнер будет адаптироваться по ширине экрана */
+  box-sizing: border-box; /* Учитывать padding и border в расчете ширины */
   margin: 0 auto;
+  overflow-x: auto; /* Добавим горизонтальную прокрутку, если элементы выходят за пределы */
 }
 
 /* Таблица */
@@ -16,6 +19,13 @@
   grid-template-columns: 1fr;
   gap: 12px;
   margin-top: 16px;
+  width: 100%; /* Убедимся, что таблица не выходит за пределы контейнера */
+}
+
+.titleInstr {
+  font-weight: bold;
+  margin-bottom: 16px;
+  color: #000000; /* ��вет заголовка */
 }
 
 /* Строки таблицы */
@@ -29,6 +39,7 @@
   padding: 12px;
   border-radius: 4px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  word-wrap: break-word; /* Разрыв длинных слов, чтобы не выходить за пределы */
 }
 
 /* Стили для кнопок */
@@ -36,6 +47,7 @@
   display: flex;
   justify-content: space-between;
   margin-top: 16px;
+  flex-wrap: wrap; /* На мобильных устройствах кнопки будут переноситься */
 }
 
 .cancel-button, .paid-button {
@@ -48,14 +60,40 @@
 }
 
 /* Адаптивные стили */
-@media (max-width: 768px) {
+@media (max-width: 1024px) {
   .exchange-instruction-container {
-    padding: 16px;
+    padding: 20px;
+    width: 90%;
+    max-width: 600px; /* Ограничиваем максимальную ширину на планшетах */
   }
 
   .button-container {
     flex-direction: column;
     gap: 10px;
+  }
+
+  .cancel-button, .paid-button {
+    width: 100%;
+    margin-bottom: 8px;
+  }
+}
+
+@media (max-width: 768px) {
+  .exchange-instruction-container {
+    padding: 16px;
+    width: 95%; /* На мобильных устройствах контейнер будет занимать 95% ширины экрана */
+    max-width: none;
+  }
+
+  .button-container {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .table {
+    display: flex;
+    flex-direction: column;
+
   }
 
   .cancel-button, .paid-button {
@@ -73,17 +111,22 @@
 
 /* Стиль для статуса оплачено */
 .status-paid {
-  color: #4caf50; /* Зеленый цвет для оплаченного статуса */
+  color: #4caf50;
 }
 
 /* Стиль для статуса ожидания оплаты */
 .status-pending {
-  color: #ff9800; /* Оранжевый цвет для статуса ожидания оплаты */
+  color: #ff9800;
 }
 
 /* Стиль для статуса оплаты в процессе */
 .status-processing {
-  color: #2196f3; /* Синий цвет для статуса оплаты в процессе */
+  color: #2196f3;
+}
+
+.status-confirmed {
+  color: green;
+  font-weight: bold;
 }
 
 /* Стили для времени создания заявки и времени изменения статуса */

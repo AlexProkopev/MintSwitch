@@ -84,6 +84,7 @@
 /* Мобильные устройства и планшеты */
 @media (max-width: 768px) {
   .container {
+    display: inline;
     padding: 10px;
   }
 

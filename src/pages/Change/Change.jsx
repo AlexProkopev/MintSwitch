@@ -101,19 +101,12 @@ function Change() {
   const handleCreateRequest = (event) => {
     event.preventDefault();
 
-    if (!selectedCoin1 || !selectedCoin2) {
-      toast.error("Выберите обе монеты для обмена.");
-      return;
-    }
+    if (!selectedCoin1 || !selectedCoin2) return;
 
     window.scrollTo({
       top: 0,
       behavior: "smooth",
     });
-
-    toast.success(
-      "Заявка создана! Пожалуйста, следуйте далее для завершения процесса обмена."
-    );
 
     setLoading(true);
 

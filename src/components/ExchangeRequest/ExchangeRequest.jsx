@@ -1,5 +1,7 @@
+
+
 import React, { useState, useEffect } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {
   Card,
   CardContent,
@@ -14,33 +16,38 @@ import {
   Chip,
 } from "@mui/material";
 import { changeCoins } from "../../redux/state/coinRequestState/coinRequestState.selectors";
-import { coinNetworks, MinMax, wallet } from "../../array/coinsArray";
-import ExchangeInstruction from "../ExchangeInstruction/ExchangeInstruction";
-import { toast, ToastContainer } from "react-toastify";
+import { coinNetworks, MinMax } from "../../array/coinsArray";
+
+import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { Link } from "react-router-dom";
-import { ROAD_ROUTE } from "../routes/routes";
-import Loader from "../Loader/Loader";
+import { EXINSTRUCTION, ROAD_ROUTE } from "../routes/routes";
+import { selectAmount, selectEmail, selectMaxAmount, selectMinAmount, selectSelectedFromCoin, selectSelectedToCoin, selectUserWallet } from "../../redux/state/exchangeReducer/exchangeSelectors";
+import { setAmount, setAmountResult, setEmail, setFromCoin, setMaxAmount, setMinAmount, setToCoin, setUserWallet } from "../../redux/state/exchangeReducer/exchangeReducer";
+
+
 
 const ExchangeRequest = () => {
-  const [amount, setAmount] = useState("");
-  const [minAmount, setMinAmount] = useState(0);
-  const [maxAmount, setMaxAmount] = useState(0);
-  const [selectedFromCoin, setSelectedFromCoin] = useState(null);
-  const [selectedToCoin, setSelectedToCoin] = useState(null);
+  const amount = useSelector(selectAmount)
+  const minAmount = useSelector(selectMinAmount)
+  const maxAmount = useSelector(selectMaxAmount)
+  const selectedFromCoin = useSelector(selectSelectedFromCoin)
+  const selectedToCoin = useSelector(selectSelectedToCoin)
+  const userWallet = useSelector(selectUserWallet)
+  const email = useSelector(selectEmail)
   const [selectedFromNetwork, setSelectedFromNetwork] = useState("");
   const [selectedToNetwork, setSelectedToNetwork] = useState("");
-  const [showInstruction, setShowInstruction] = useState(false); // Состояние для показа инструкции
-  const [userWallet, setUserWallet] = useState(""); // Поле для ввода кошелька пользователя
-  const [email, setEmail] = useState(""); // Поле для ввода email
-  const [remainingTime, setRemainingTime] = useState(0); // Оставшееся время для заявки
+  
+
+
   const [isAMLChecked, setIsAMLChecked] = useState(false); // Состояние для проверки галочки AML
-  const [isNetworkSelectionDisabled, setIsNetworkSelectionDisabled] = useState(false); // Состояние для блокировки выбора сетей
-  const [loading, setLoading] = useState(false);
+
 
   const defaultCoins = useSelector(changeCoins);
   const [coinOptions, setCoinOptions] = useState([]);
-  console.log("coinOptions: ", coinOptions);
+
+  const dispatch = useDispatch();
+
 
   useEffect(() => {
     if (defaultCoins && defaultCoins.length > 0) {
@@ -55,19 +62,19 @@ const ExchangeRequest = () => {
       );
 
       // Выбираем первые две монеты для обмена по умолчанию
-      setSelectedFromCoin(defaultCoins[0]);
-      setSelectedToCoin(defaultCoins[1]);
+      dispatch(setFromCoin(defaultCoins[0]));
+      dispatch(setToCoin(defaultCoins[1]));
     }
-  }, [defaultCoins]);
+  }, [defaultCoins,coinOptions,dispatch]);
 
   useEffect(() => {
     // Загружаем выбранные монеты из localStorage при монтировании компонента
     const storedValues = JSON.parse(localStorage.getItem("selectedCoins"));
     if (storedValues) {
-      setSelectedFromCoin(storedValues[0] || null);
-      setSelectedToCoin(storedValues[1] || null);
+      dispatch(setFromCoin(storedValues[0] || null));
+      dispatch(setToCoin(storedValues[1] || null));
     }
-  }, []);
+  }, [dispatch]);
 
   useEffect(() => {
     const fetchLimits = () => {
@@ -83,11 +90,12 @@ const ExchangeRequest = () => {
 
         if (fromCoinLimits && toCoinLimits) {
           // Установить минимальное и максимальное количество
-          setMinAmount(parseFloat(fromCoinLimits.min));
-          setMaxAmount(parseFloat(fromCoinLimits.max)); // Исправлено здесь
+          dispatch(setMinAmount(parseFloat(fromCoinLimits.min)));
+          
+          dispatch(setMaxAmount( parseFloat(fromCoinLimits.max)));
         } else {
-          setMinAmount(0);
-          setMaxAmount(0);
+          dispatch(setMinAmount(0));
+          dispatch(setMaxAmount(0));
         }
       };
 
@@ -101,7 +109,7 @@ const ExchangeRequest = () => {
     // Обновляем лимиты при смене монет
     const interval = setInterval(fetchLimits, 1800000); // 1800000ms = 30 минут
     return () => clearInterval(interval);
-  }, [selectedFromCoin, selectedToCoin]);
+  }, [selectedFromCoin, selectedToCoin, dispatch]);
 
   
   useEffect(() => {
@@ -113,14 +121,7 @@ const ExchangeRequest = () => {
     localStorage.setItem("exchangeForm", JSON.stringify(values));
   }, [amount, userWallet, email]);
 
-  useEffect(() => {
-    if (selectedFromCoin && selectedToCoin) {
-      localStorage.setItem(
-        "selectedCoins",
-        JSON.stringify([selectedFromCoin, selectedToCoin])
-      );
-    }
-  }, [selectedFromCoin, selectedToCoin]);
+
 
   useEffect(() => {
     // Обновляем список доступных сетей и устанавливаем сеть по умолчанию
@@ -165,7 +166,9 @@ const ExchangeRequest = () => {
     const toCoinPrice = toCoin.current_price;
 
     if (fromCoinPrice && toCoinPrice) {
-      return ((amount * fromCoinPrice) / toCoinPrice).toFixed(4); // Преобразование числа в строку с 4 знаками после запятой
+      const result = ((amount * fromCoinPrice) / toCoinPrice).toFixed(4)
+      dispatch(setAmountResult(result))
+      return result 
     }
     return 0;
   };
@@ -180,52 +183,21 @@ const ExchangeRequest = () => {
     return 0;
   };
 
-  // Получение кошелька для выбранной монеты по названию
-  const getWalletAddress = (coinName) => {
-    const coin = wallet.find((c) => c.name === coinName);
-    return coin ? coin.wallet : "";
-  };
-
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    if (amount >= minAmount && amount <= maxAmount && userWallet && email) {
-      if (isAMLChecked) {
-        setLoading(true)
-        setTimeout(()=>{
-          setShowInstruction(true); // Показываем инструкцию по переводу
-        setIsNetworkSelectionDisabled(true); // Замораживаем выбор сетей
-setLoading(false)
-        },2000)
-        toast.success(
-          "Ваша заявка на обмен была успешно создана. Пожалуйста, следуйте инструкции для завершения обмена."
-        );
-      } else {
-        setLoading(false);
-        toast.error(
-          "Пожалуйста, подтвердите условия AML перед созданием заявки."
-        );
-      }
-    } else {
-      setLoading(false);
-      toast.error(
-        `Пожалуйста, введите корректное количество от ${minAmount} до ${maxAmount}.`
-      );
-    }
-  };
 
   // Обработчик изменения количества
   const handleAmountChange = (event) => {
-    setAmount(event.target.value);
+    dispatch(setAmount(event.target.value));
+   
   };
 
   // Обработчик изменения кошелька пользователя
   const handleWalletChange = (event) => {
-    setUserWallet(event.target.value);
+    dispatch(setUserWallet(event.target.value));
   };
 
   // Обработчик изменения email
   const handleEmailChange = (event) => {
-    setEmail(event.target.value);
+    dispatch(setEmail(event.target.value));
   };
 
   // Обработчик изменения состояния чекбокса AML
@@ -243,23 +215,6 @@ setLoading(false)
     setSelectedToNetwork(network);
   };
 
-  const handleCancelRequest = () => {
-    window.scrollTo({
-      top: 0,
-      behavior: "smooth", // Плавная прокрутка
-    });
-    setShowInstruction(false); // Возвращаемся к форме обмена
-    setAmount(""); // Очищаем количество
-    setUserWallet(""); // Очищаем кошелек
-    setEmail(""); // Очищаем email
-    setRemainingTime(30 * 60); // Сброс времени до 30 минут
-    setIsAMLChecked(false); // Сбрасываем состояние чекбокса AML
-    setIsNetworkSelectionDisabled(false); // Разблокируем выбор сетей
-    toast.info("Ваша заявка была отменена и вы вернулись к форме обмена.");
-  };
-//функция которая сохраняет номер заявки в локал сторедж на пол часа и если он там есть тогда показывает номер заявки тот что в локале
-
-
   //функция которая проверяет есть ли в локал сторедж номер заявки и если есть то показывает его 
   const createNubmer = () => {
     const randomNumber = Math.floor(Math.random() * 1000000000);
@@ -272,7 +227,7 @@ setLoading(false)
       className="container"
       style={{ maxWidth: "900px", margin: "0 auto", padding: "20px" }}
     >
-      {loading && <Loader />}
+      {/* {loading && <Loader />} */}
       <Card
         className="exchange-card"
         sx={{ marginBottom: 2, borderRadius: 2, boxShadow: 3 }}
@@ -340,7 +295,7 @@ setLoading(false)
                             : "default"
                         }
                         style={{ margin: "2px", cursor: "pointer" }}
-                        disabled={isNetworkSelectionDisabled} // Замораживаем выбор сетей
+                        // disabled={isNetworkSelectionDisabled} // Замораживаем выбор сетей
                       />
                     )
                   )}
@@ -383,7 +338,7 @@ setLoading(false)
                           selectedToNetwork === network ? "primary" : "default"
                         }
                         style={{ margin: "2px", cursor: "pointer" }}
-                        disabled={isNetworkSelectionDisabled} // Замораживаем выбор сетей
+                        // disabled={isNetworkSelectionDisabled} // Замораживаем выбор сетей
                       />
                     )
                   )}
@@ -396,20 +351,8 @@ setLoading(false)
             ) : null}
           </FormControl>
 
-          {showInstruction ? (
-            <ExchangeInstruction
-              amount={amount}
-              fromCoin={selectedFromCoin}
-              toCoin={selectedToCoin}
-              userWallet={userWallet}
-              calculateAmountReceived={calculateAmountReceived}
-              getWalletAddress={getWalletAddress}
-              remainingTime={remainingTime}
-              email={email} // Добавляем email в компонент
-              onCancelRequest={handleCancelRequest} // Передаем обработчик отмены заявки
-            />
-          ) : (
-            <form onSubmit={handleSubmit}>
+        
+          <form >
               <FormControl fullWidth margin="normal">
                 <TextField
                   label="Количество"
@@ -417,7 +360,7 @@ setLoading(false)
                   value={amount}
                   onChange={handleAmountChange}
                   placeholder={`Введите количество от ${minAmount} до ${maxAmount}`}
-                  helperText={`Введите количество от ${minAmount} до ${maxAmount}`}
+                  helperText={`Введите количество в ${selectedFromCoin?.name} от ${minAmount} до ${maxAmount}`}
                   error={amount < minAmount || amount > maxAmount}
                 />
                 {amount && selectedFromCoin && selectedToCoin && (
@@ -475,18 +418,30 @@ setLoading(false)
                 }
                 style={{ marginBottom: "10px" }}
               />
-              <Box mt={2}>
-                <Button
-                  type="submit"
-                  variant="contained"
-                  color="primary"
-                  disabled={!isAMLChecked} // Делаем кнопку активной только если AML-чекбокс отмечен
-                >
-                  Создать заявку
-                </Button>
-              </Box>
+             <Box mt={2}>
+  {isAMLChecked ? (
+    <Link to={EXINSTRUCTION}>
+      <Button
+        type="submit"
+        variant="contained"
+        color="primary"
+      >
+        Создать заявку
+      </Button>
+    </Link>
+  ) : (
+    <Button
+      type="submit"
+      variant="contained"
+      color="primary"
+      disabled
+    >
+      Создать заявку
+    </Button>
+  )}
+</Box>
+
             </form>
-          )}
         </CardContent>
       </Card>
       <div className="notify-wrap">

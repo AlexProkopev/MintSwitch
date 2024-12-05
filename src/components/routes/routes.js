@@ -11,3 +11,4 @@ export const TERMS_ROUTE = "/terms";
 export const FORGOT_PASSWORD_ROUTE = "/fgpass";
 export const SITEMAP_ROUTE = "/site_map";
 export const NOTICE_ROUTE = "/notice";
+export const EXINSTRUCTION = "/exchange_instruction";

@@ -15,6 +15,9 @@ import {
 import storage from 'redux-persist/lib/storage';
 import { coinsReduser } from './coinRequestState/coinRequestState';
 import { authentifitacionReduces } from './autentification/autentification.redusers';
+import { exchangeReduser } from './exchangeReducer/exchangeReducer';
+
+
 
 const userConfig = {
   key: 'auth',
@@ -26,6 +29,7 @@ export const store = configureStore({
   reducer: {
       coinsRequest: coinsReduser,
       authStore:persistReducer(userConfig, authentifitacionReduces) ,
+      exchange: exchangeReduser,
       
 
   },

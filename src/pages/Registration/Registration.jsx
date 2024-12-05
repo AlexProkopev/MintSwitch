@@ -34,9 +34,10 @@ const Registration = () => {
   // Обработчик отправки формы
   const handleSubmit = (values, { setSubmitting }) => {
     dispatch(registrationUser({
-      email: values.email,
-      password: values.password,
       name: values.name,
+      email: values.email,
+      password: values.password
+      
     }))
       .unwrap()
       .then(() => {
@@ -45,6 +46,12 @@ const Registration = () => {
       })
       .catch(() => {
         setSubmitting(false);
+      });
+
+      console.log({
+        name: values.name,
+        email: values.email,
+        password: values.password
       });
   };
 
