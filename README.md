@@ -8,7 +8,7 @@
 ## 🔗 Live Demo
 
 👉 [**Visit MintSwitch Live**](https://mint-switch.vercel.app/)  
-*(Replace the URL with your deployed project link)*
+
 
 ---
 
@@ -73,7 +73,7 @@ This project was built as a personal learning initiative to strengthen my fronte
 ## 🙋‍♂️ Contact
 
 Made with ❤️ by [**Alex Prokopev**](https://github.com/AlexProkopev)  
-📩 Telegram: [@alexprokopev](https://t.me/amsterdam_36)  
+📩 Telegram: [@amsterdam_36](https://t.me/amsterdam_36)  
 📧 Email: sanya.prokopev95@gmail.com
 
 ---
