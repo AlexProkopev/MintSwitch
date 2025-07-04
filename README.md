@@ -1,70 +1,79 @@
-# Getting Started with Create React App
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# 🪙 MintSwitch — Crypto Exchange Interface
 
-## Available Scripts
+[![Status](https://img.shields.io/badge/status-active-brightgreen?style=flat-square)](https://github.com/AlexProkopev)
+[![React](https://img.shields.io/badge/react-%2361DAFB.svg?&style=flat-square&logo=react&logoColor=white)](https://reactjs.org/)
+[![License](https://img.shields.io/badge/license-MIT-blue.svg?style=flat-square)](LICENSE)
 
-In the project directory, you can run:
+## 🔗 Live Demo
 
-### `npm start`
+👉 [**Visit MintSwitch Live**](https://mint-switch.vercel.app/)  
+*(Replace the URL with your deployed project link)*
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+---
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## 📌 About the Project
 
-### `npm test`
+**MintSwitch** is a modern and responsive cryptocurrency exchange interface.  
+The backend was provided as a ready-made API, and this project focuses entirely on frontend development, UI/UX, and user interaction.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+This project was built as a personal learning initiative to strengthen my frontend skills using real API integration and exchange logic on the client side.
 
-### `npm run build`
+---
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## 🚀 Features
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+- 🔄 Currency selection & live rate preview  
+- 📥 Exchange amount input and form validation  
+- 📡 API integration for real-time exchange calculations  
+- 📱 Fully responsive layout  
+- 🎨 Styled using CSS Modules / Styled Components  
+- 💡 Clean, minimal UI and smooth UX
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+---
 
-### `npm run eject`
+## 🛠 Tech Stack
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+<div align="center">
+  <img src="https://cdn.simpleicons.org/react/61DAFB" width="30" height="30" alt="React" />
+  <img src="https://cdn.simpleicons.org/javascript/F7DF1E" width="30" height="30" alt="JavaScript" />
+  <img src="https://cdn.simpleicons.org/css3/1572B6" width="30" height="30" alt="CSS3" />
+  <img src="https://cdn.simpleicons.org/axios/5A29E4" width="30" height="30" alt="Axios" />
+  <img src="https://cdn.simpleicons.org/vite/646CFF" width="30" height="30" alt="Vite" />
+  <img src="https://cdn.simpleicons.org/webpack/8DD6F9" width="30" height="30" alt="Webpack" />
+  <img src="https://cdn.simpleicons.org/git/F05032" width="30" height="30" alt="Git" />
+</div>
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+- **Frontend**: React, React Router, JavaScript (ES6+), Axios  
+- **Styling**: CSS Modules / Styled Components  
+- **Build Tools**: Vite / Webpack  
+- **Version Control**: Git + GitHub  
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+---
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+## 📷 Screenshots
 
-## Learn More
+![image](https://github.com/user-attachments/assets/615e5906-8413-49d2-8622-f473234ffe44)
+![image](https://github.com/user-attachments/assets/762e3c36-a503-4542-99ee-3a9a947dc565)
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
 
-To learn React, check out the [React documentation](https://reactjs.org/).
 
-### Code Splitting
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
 
-### Analyzing the Bundle Size
+---
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+## ⚠️ Notes
 
-### Making a Progressive Web App
+- This project uses a **ready-made backend**.
+- All frontend logic, UI structure, API handling, and UX design were implemented by me.
+- Developed as part of my learning journey in frontend and full stack development.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+---
 
-### Advanced Configuration
+## 🙋‍♂️ Contact
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+Made with ❤️ by [**Alex Prokopev**](https://github.com/AlexProkopev)  
+📩 Telegram: [@alexprokopev](https://t.me/amsterdam_36)  
+📧 Email: sanya.prokopev95@gmail.com
 
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+---
